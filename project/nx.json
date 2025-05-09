@@ -26,7 +26,13 @@
           "buildDepsName": "build-deps",
           "watchDepsName": "watch-deps"
         }
-      }
+      },
+      "exclude": [
+        "libs/account/authentication/*",
+        "libs/account/blog-user/*",
+        "libs/blog/blog-post/*",
+        "libs/blog/blog-comment/*"
+      ]
     },
     {
       "plugin": "@nx/webpack/plugin",
@@ -43,6 +49,32 @@
       "options": {
         "targetName": "lint"
       }
+    },
+    {
+      "plugin": "@nx/js/typescript",
+      "include": [
+        "libs/account/authentication/*",
+        "libs/account/blog-user/*",
+        "libs/blog/blog-post/*",
+        "libs/blog/blog-comment/*"
+      ],
+      "options": {
+        "typecheck": {
+          "targetName": "typecheck"
+        }
+      }
     }
-  ]
+  ],
+  "targetDefaults": {
+    "@nx/js:tsc": {
+      "cache": true,
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "production",
+        "^production"
+      ]
+    }
+  }
 }
