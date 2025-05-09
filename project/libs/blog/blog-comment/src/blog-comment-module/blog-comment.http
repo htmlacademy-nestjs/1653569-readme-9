@@ -1,0 +1,23 @@
+# Create comment:
+POST http://localhost:3000/api/comments/8ce42ca2-5b32-4384-81b5-2975e6df68a6 HTTP/1.1
+Content-Type: application/json
+
+{
+  "text": "New amazing comment",
+  "userId":"90fea18a-a714-44ba-9503-23f093cefb16"
+}
+
+###
+
+# Get comments for postID:
+GET http://localhost:3000/api/comments/dd74f63c-38d9-49fd-a9c8-58a9531845e5 HTTP/1.1
+Content-Type: application/json
+
+###
+
+
+# Delete comment by ID:
+DELETE http://localhost:3000/api/comments/895f7c80-490c-445a-9d61-7e4dbeadfffb HTTP/1.1
+Content-Type: application/json
+
+###
