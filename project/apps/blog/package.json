@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "nx": {
+    "name": "blog",
     "targets": {
       "build": {
         "executor": "nx:run-commands",
@@ -27,15 +28,15 @@
           "build"
         ],
         "options": {
-          "buildTarget": "@project/blog:build",
+          "buildTarget": "blog:build",
           "runBuildTargetDependencies": false
         },
         "configurations": {
           "development": {
-            "buildTarget": "@project/blog:build:development"
+            "buildTarget": "blog:build:development"
           },
           "production": {
-            "buildTarget": "@project/blog:build:production"
+            "buildTarget": "blog:build:production"
           }
         }
       }

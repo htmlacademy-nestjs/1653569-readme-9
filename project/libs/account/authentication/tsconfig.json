@@ -1,0 +1,16 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "../blog-user"
+    },
+    {
+      "path": "../../shared/helpers"
+    },
+    {
+      "path": "./tsconfig.lib.json"
+    }
+  ]
+}

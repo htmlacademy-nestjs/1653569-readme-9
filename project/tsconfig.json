@@ -17,6 +17,27 @@
     },
     {
       "path": "./apps/notify"
+    },
+    {
+      "path": "./libs/account/authentication"
+    },
+    {
+      "path": "./libs/account/blog-user"
+    },
+    {
+      "path": "./libs/shared/core"
+    },
+    {
+      "path": "./libs/shared/data-access"
+    },
+    {
+      "path": "./libs/shared/helpers"
+    },
+    {
+      "path": "./libs/blog/blog-post"
+    },
+    {
+      "path": "./libs/blog/blog-comment"
     }
   ]
 }
