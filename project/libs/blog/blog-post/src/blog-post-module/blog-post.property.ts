@@ -19,6 +19,14 @@ export const BlogPostApiProperty = {
     description: 'The post description text',
     example: 'Some amazing description'
   },
+  Quote: {
+    description: 'The post quote text',
+    example: 'Some amazing quote'
+  },
+  Author: {
+    description: 'The post quote author name',
+    example: 'Alex Smith'
+  },
   CreatedDate: {
     description: 'The post creation date',
     example: '2025-01-01T00:00:00.000Z'

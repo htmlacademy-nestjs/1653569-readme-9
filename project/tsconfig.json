@@ -38,6 +38,9 @@
     },
     {
       "path": "./libs/blog/blog-comment"
+    },
+    {
+      "path": "./libs/account/config"
     }
   ]
 }

@@ -2,9 +2,9 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 
 import { BlogPostEntity } from "./blog-post.entity";
 import { BlogPostRepository } from "./blog-post.repository";
+import { BlogPostMessage } from "./blog-post.constants";
 import { CreatePostDTO } from "../dto/create-post.dto";
 import { UpdatePostDTO } from "../dto/update-post.dto";
-import { BlogPostMessage } from "./blog-post.constant";
 
 @Injectable()
 export class BlogPostService {

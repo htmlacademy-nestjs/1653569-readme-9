@@ -4,6 +4,9 @@
   "include": [],
   "references": [
     {
+      "path": "../../libs/account/config"
+    },
+    {
       "path": "../../libs/blog/blog-comment"
     },
     {

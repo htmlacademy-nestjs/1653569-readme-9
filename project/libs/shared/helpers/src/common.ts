@@ -1,5 +1,14 @@
 import { ClassTransformOptions, plainToInstance } from 'class-transformer';
 
+interface mongoConnectionOptions {
+  username: string;
+  password: string;
+  host: string;
+  port: number;
+  databaseName: string;
+  authDatabase: string;
+}
+
 export function fillDTO<T, V>(
   DTOClass: new () => T,
   plainObject: V,
@@ -21,4 +30,15 @@ export function fillDTO<T, V>(
       excludeExtraneousValues: true,
       ...options,
   });
+}
+
+export function getMongoConnectionString({
+  username,
+  password,
+  host,
+  port,
+  databaseName,
+  authDatabase
+}: mongoConnectionOptions): string {
+  return `mongodb://${username}:${password}@${host}:${port}/${databaseName}?authSource=${authDatabase}`;
 }

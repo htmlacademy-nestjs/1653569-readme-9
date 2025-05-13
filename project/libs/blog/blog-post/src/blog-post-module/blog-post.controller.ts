@@ -3,10 +3,10 @@ import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/
 
 import { fillDTO } from '@project/helpers';
 import { BlogPostService } from './blog-post.service';
-import { BlogPostApiOperation, BlogPostApiOption, BlogPostApiResponse } from './blog-post.constant';
+import { BlogPostApiOperation, BlogPostApiOption, BlogPostApiResponse } from './blog-post.constants';
 import { CreatePostDTO } from '../dto/create-post.dto';
 import { UpdatePostDTO } from '../dto/update-post.dto';
-import { PostRDO } from '../rdo/post.rdo'
+import { PostRDO } from '../rdo/post.rdo';
 
 @ApiTags('Posts')
 @Controller('post')

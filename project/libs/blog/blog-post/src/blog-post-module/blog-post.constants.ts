@@ -58,3 +58,38 @@ export const BlogPostApiResponse = {
     description: 'Post was deleted',
   }
 } as const;
+
+export const BlogPostValidateLength = {
+  Title: {
+    Min: 20,
+    Max: 50,
+  },
+  Text: {
+    Min: 100,
+    Max: 1024,
+  },
+  Announcement: {
+    Min: 50,
+    Max: 255,
+  },
+  Description: {
+    Min: 3,
+    Max: 300,
+  },
+  Quote: {
+    Min: 20,
+    Max: 300,
+  },
+  Author: {
+    Min: 3,
+    Max: 50,
+  },
+  Tag: {
+    Min: 3,
+    Max: 10,
+  },
+  Tags: {
+    Min: 0,
+    Max: 8,
+  },
+} as const;
