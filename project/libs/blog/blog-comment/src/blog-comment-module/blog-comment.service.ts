@@ -3,7 +3,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { BlogCommentRepository } from './blog-comment.repository';
 import { BlogCommentEntity } from './blog-comment.entity';
 import { CreateCommentDTO } from '../dto/create-comment.dto';
-import { BlogCommentMessage } from './blog-comment.constant';
+import { BlogCommentMessage } from './blog-comment.constants';
 
 @Injectable()
 export class BlogCommentService {

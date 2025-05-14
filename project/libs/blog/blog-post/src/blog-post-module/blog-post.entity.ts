@@ -6,6 +6,7 @@ export class BlogPostEntity extends Entity implements StorableEntity<Post> {
   public announcement?: string;
   public linkPath?: string;
   public description?: string;
+  public quote?: string;
   public createData?: Date;
   public publishDate?: Date;
   public isReposted!: boolean;
@@ -34,6 +35,7 @@ export class BlogPostEntity extends Entity implements StorableEntity<Post> {
     this.announcement = post.announcement || '';
     this.linkPath = post.linkPath || '';
     this.description = post.description || '';
+    this.quote = post.quote || '';
     this.createData = post.createdDate || new Date();
     this.publishDate = post.publishDate || new Date();
     this.isReposted = post.isReposted || false;
@@ -55,6 +57,7 @@ export class BlogPostEntity extends Entity implements StorableEntity<Post> {
       announcement: this.announcement,
       linkPath: this.linkPath,
       description: this.description,
+      quote: this.quote,
       createDate: this.createData,
       publishDate: this.publishDate,
       isReposted: this.isReposted,

@@ -51,3 +51,14 @@ export const AuthUserApiResponse = {
     description: AuthUserMessage.NotFound
   }
 } as const;
+
+export const AuthUserValidateLength = {
+  Name: {
+    Min: 3,
+    Max: 50,
+  },
+  Password: {
+    Min: 6,
+    Max: 12,
+  }
+} as const;

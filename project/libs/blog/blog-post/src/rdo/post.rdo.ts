@@ -29,6 +29,14 @@ export class PostRDO {
   @Expose()
   public description?: string;
 
+  @ApiProperty(BlogPostApiProperty.Quote)
+  @Expose()
+  public quote?: string;
+
+  @ApiProperty(BlogPostApiProperty.Author)
+  @Expose()
+  public author?: string;
+
   @ApiProperty(BlogPostApiProperty.CreatedDate)
   @Expose({ name: 'createdAt' })
   public createdDate!: Date;

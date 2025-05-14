@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto';
 
 import { Entity, StorableEntity, EntityFactory } from '@project/core';
 import { Repository } from './repository.interface';
+import { Nullable } from '@project/helpers';
 
 export abstract class BaseMemoryRepository<T extends Entity & StorableEntity<ReturnType<T['toPOJO']>>> implements Repository<T> {
   protected entities: Map<T['id'], ReturnType<T['toPOJO']>> = new Map();
@@ -10,8 +11,8 @@ export abstract class BaseMemoryRepository<T extends Entity & StorableEntity<Ret
     protected entityFactory: EntityFactory<T>
   ) {}
 
-  public async findById(id: T['id']): Promise<T | null> {
-    const foundEntity = this.entities.get(id) || null;
+  public async findById(id: T['id']): Promise<Nullable<T>> {
+    const foundEntity = this.entities.get(id);
     if (!foundEntity) {
       return null;
     }

@@ -48,3 +48,10 @@ export const BlogCommentApiResponse = {
     description: 'Comment was deleted',
   }
 } as const;
+
+export const BlogCommentValidateLength = {
+  Text: {
+    Min: 10,
+    Max: 300,
+  }
+} as const;

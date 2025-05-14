@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
 import { BaseMemoryRepository } from '@project/data-access';
+import { Nullable } from '@project/helpers';
 import { BlogPostEntity } from './blog-post.entity';
-import { UpdatePostDTO } from '../dto/update-post.dto';
 import { BlogPostFactory } from './blog-post.factory';
+import { UpdatePostDTO } from '../dto/update-post.dto';
 
 @Injectable()
 export class BlogPostRepository extends BaseMemoryRepository<BlogPostEntity> {
@@ -11,7 +12,7 @@ export class BlogPostRepository extends BaseMemoryRepository<BlogPostEntity> {
     super(entityFactory);
   }
 
-  public async updatePost(id: string, dto: UpdatePostDTO): Promise<BlogPostEntity | null> {
+  public async updatePost(id: string, dto: UpdatePostDTO): Promise<Nullable<BlogPostEntity>> {
     const entities = Array.from(this.entities.values());
     const post = entities.find((entity) => entity.id === id);
     if (!post) {
@@ -27,7 +28,7 @@ export class BlogPostRepository extends BaseMemoryRepository<BlogPostEntity> {
     return entities.map((entity) => this.entityFactory.create(entity));
   }
 
-  public async findPostByTitle(title: string): Promise<BlogPostEntity | null> {
+  public async findPostByTitle(title: string): Promise<Nullable<BlogPostEntity>> {
     const entities = Array.from(this.entities.values());
     const post = entities.find((entity) => entity && entity.title === title);
     if (!post) {

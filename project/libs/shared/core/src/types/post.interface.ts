@@ -8,6 +8,8 @@ export interface Post {
   text?: string;
   announcement?: string;
   description?: string;
+  quote?: string;
+  author?: string;
   createdDate?: Date;
   publishDate?: Date;
   linkPath?: string;

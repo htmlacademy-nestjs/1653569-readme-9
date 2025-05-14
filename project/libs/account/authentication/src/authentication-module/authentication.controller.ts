@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { fillDTO } from '@project/helpers';
-import { AuthUserApiOperation, AuthUserApiParam, AuthUserApiResponse } from './authentication.constant';
+import { AuthUserApiOperation, AuthUserApiParam, AuthUserApiResponse } from './authentication.constants';
 import { AuthenticationService } from './authentication.service';
 import { CreateUserDTO } from '../dto/create-user.dto';
 import { LoginUserDTO } from '../dto/login-user.dto';

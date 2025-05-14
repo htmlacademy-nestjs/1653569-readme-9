@@ -10,4 +10,3 @@ export type { Post } from './types/post.interface';
 export type { Comment } from './types/comment.interface';
 export type { Like } from './types/like.interface';
 export type { Tag } from './types/tag.interface';
-

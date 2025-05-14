@@ -3,7 +3,7 @@ import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { fillDTO } from '@project/helpers';
 import { BlogCommentService } from './blog-comment.service';
-import { BlogCommentApiOperation, BlogCommentApiParam, BlogCommentApiResponse } from './blog-comment.constant';
+import { BlogCommentApiOperation, BlogCommentApiParam, BlogCommentApiResponse } from './blog-comment.constants';
 import { CreateCommentDTO } from '../dto/create-comment.dto';
 import { CommentRDO } from '../rdo/comment.rdo';
 
