@@ -1,5 +1,6 @@
 import { PostState } from './post-state.enum';
 import { PostType } from './post-type.enum';
+import { Comment } from './comment.interface';
 import { Tag } from './tag.interface';
 
 export interface Post {
@@ -8,17 +9,18 @@ export interface Post {
   text?: string;
   announcement?: string;
   description?: string;
-  quote?: string;
-  author?: string;
-  createdDate?: Date;
-  publishDate?: Date;
+  quoteText?: string;
+  quoteAuthor?: string;
   linkPath?: string;
-  repostPostId?: string;
-  repostUserId?: string;
-  isReposted: boolean;
-  likeCount?: number;
-  commentCount?: number;
   userId: string;
+  isReposted: boolean;
+  repostedPostId?: string;
+  repostedUserId?: string;
+  likeCount: number;
+  commentCount: number;
+  comments?: Comment[];
+  createdAt?: Date;
+  updatedAt?: Date;
   state?: PostState;
   type: PostType;
   tags?: Tag[];

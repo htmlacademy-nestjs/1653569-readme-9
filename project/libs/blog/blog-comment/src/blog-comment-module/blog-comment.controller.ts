@@ -16,7 +16,7 @@ export class BlogCommentController {
 
   @ApiOperation(BlogCommentApiOperation.FindAll)
   @ApiParam(BlogCommentApiParam.PostId)
-  @Get(':postId')
+  @Get('/:postId')
   public async showAll(@Param('postId') postId: string) {
     const comments = await this.blogCommentService.getCommentsByPostId(postId);
     return comments.map((comment) => fillDTO(CommentRDO, comment.toPOJO()));
@@ -26,7 +26,7 @@ export class BlogCommentController {
   @ApiResponse(BlogCommentApiResponse.Created)
   @ApiResponse(BlogCommentApiResponse.NotFoundByPostId)
   @ApiParam(BlogCommentApiParam.PostId)
-  @Post(':postId')
+  @Post('/:postId')
   public async create(@Param('postId') postId: string, @Body() dto: CreateCommentDTO) {
     const comment = await this.blogCommentService.createCommentByPostId(postId, dto);
     return fillDTO(CommentRDO, comment.toPOJO());
@@ -37,7 +37,7 @@ export class BlogCommentController {
   @ApiResponse(BlogCommentApiResponse.NotFoundById)
   @ApiParam(BlogCommentApiParam.Id)
   @HttpCode(204)
-  @Delete(':id')
+  @Delete('/:id')
   public async delete(@Param('id') id: string) {
     await this.blogCommentService.deleteCommentById(id);
   }

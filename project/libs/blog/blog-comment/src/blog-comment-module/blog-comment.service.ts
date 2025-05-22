@@ -12,7 +12,7 @@ export class BlogCommentService {
   ) {}
 
   public async getCommentsByPostId(postId: string) {
-    const comments = await this.blogCommentRepository.findComments(postId);
+    const comments = await this.blogCommentRepository.find(postId);
     if (!comments) {
       throw new NotFoundException(BlogCommentMessage.SeveralNotFound);
     }

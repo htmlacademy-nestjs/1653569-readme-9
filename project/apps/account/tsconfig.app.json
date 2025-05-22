@@ -24,12 +24,6 @@
       "path": "../../libs/account/config/tsconfig.lib.json"
     },
     {
-      "path": "../../libs/blog/blog-comment/tsconfig.lib.json"
-    },
-    {
-      "path": "../../libs/blog/blog-post/tsconfig.lib.json"
-    },
-    {
       "path": "../../libs/account/blog-user/tsconfig.lib.json"
     },
     {

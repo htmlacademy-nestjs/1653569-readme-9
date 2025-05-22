@@ -41,6 +41,12 @@
     },
     {
       "path": "./libs/account/config"
+    },
+    {
+      "path": "./libs/blog/models"
+    },
+    {
+      "path": "./libs/blog/blog-tag"
     }
   ]
 }

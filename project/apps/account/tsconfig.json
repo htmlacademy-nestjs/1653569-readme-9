@@ -7,12 +7,6 @@
       "path": "../../libs/account/config"
     },
     {
-      "path": "../../libs/blog/blog-comment"
-    },
-    {
-      "path": "../../libs/blog/blog-post"
-    },
-    {
       "path": "../../libs/account/blog-user"
     },
     {

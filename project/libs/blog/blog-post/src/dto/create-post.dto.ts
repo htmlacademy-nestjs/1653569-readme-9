@@ -5,20 +5,20 @@ import {
   IsArray,
   IsBoolean,
   IsEnum,
-  IsMongoId,
   IsNumber,
   IsOptional,
   IsString,
   IsUrl,
+  IsUUID,
   Length
 } from 'class-validator';
 
-import { PostState, PostType, Tag } from '@project/core';
+import { Comment, PostState, PostType, Tag } from '@project/core';
 import { BlogPostApiProperty } from '../blog-post-module/blog-post.property';
 import { BlogPostValidateLength } from '../blog-post-module/blog-post.constants';
 
 export class CreatePostDTO {
-  @IsMongoId()
+  @IsUUID()
   @ApiProperty(BlogPostApiProperty.Id)
   public id?: string;
 
@@ -50,13 +50,13 @@ export class CreatePostDTO {
   @IsString()
   @Length(BlogPostValidateLength.Quote.Min, BlogPostValidateLength.Quote.Max)
   @ApiProperty(BlogPostApiProperty.Quote)
-  public quote?: string;
+  public quoteText?: string;
 
   @IsOptional()
   @IsString()
   @Length(BlogPostValidateLength.Author.Min, BlogPostValidateLength.Author.Max)
   @ApiProperty(BlogPostApiProperty.Author)
-  public author?: string;
+  public quoteAuthor?: string;
 
   @IsOptional()
   @IsUrl()
@@ -64,14 +64,14 @@ export class CreatePostDTO {
   public linkPath?: string;
 
   @IsOptional()
-  @IsMongoId()
+  @IsUUID()
   @ApiProperty(BlogPostApiProperty.RepostPostId)
-  public repostPostId?: string;
+  public repostedPostId?: string;
 
   @IsOptional()
-  @IsMongoId()
+  @IsUUID()
   @ApiProperty(BlogPostApiProperty.RepostUserId)
-  public repostUserId?: string;
+  public repostedUserId?: string;
 
   @IsBoolean()
   @ApiProperty(BlogPostApiProperty.IsReposted)
@@ -85,7 +85,11 @@ export class CreatePostDTO {
   @ApiProperty(BlogPostApiProperty.LikeCount)
   public likeCount!: number;
 
-  @IsMongoId()
+  @IsOptional()
+  @IsArray()
+  public comments?: Comment[];
+
+  @IsUUID()
   @ApiProperty(BlogPostApiProperty.UserId)
   public userId!: string;
 

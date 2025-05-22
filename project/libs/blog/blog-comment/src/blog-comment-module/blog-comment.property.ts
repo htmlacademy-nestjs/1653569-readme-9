@@ -19,4 +19,8 @@ export const BlogCommentApiProperty = {
     description: 'The date and time when the comment was created',
     example: '2022-01-01T12:00:00Z'
   },
+  UpdateDate: {
+    description: 'The date and time when the comment was last updated',
+    example: '2022-01-02T12:00:00Z'
+  }
 } as const;

@@ -32,7 +32,8 @@
         "libs/account/blog-user/*",
         "libs/blog/blog-post/*",
         "libs/blog/blog-comment/*",
-        "libs/account/config/*"
+        "libs/account/config/*",
+        "libs/blog/blog-tag/*"
       ]
     },
     {
@@ -58,7 +59,8 @@
         "libs/account/blog-user/*",
         "libs/blog/blog-post/*",
         "libs/blog/blog-comment/*",
-        "libs/account/config/*"
+        "libs/account/config/*",
+        "libs/blog/blog-tag/*"
       ],
       "options": {
         "typecheck": {
