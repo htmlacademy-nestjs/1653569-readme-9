@@ -13,7 +13,7 @@ export class BlogPostService {
   ) {}
 
   public async getPosts(): Promise<BlogPostEntity[]> {
-    return await this.blogPostRepository.findPosts();
+    return await this.blogPostRepository.find();
   }
 
   public async createPost(dto: CreatePostDTO): Promise<BlogPostEntity> {
@@ -23,17 +23,17 @@ export class BlogPostService {
   }
 
   public async updatePostById(id: string, dto: UpdatePostDTO): Promise<BlogPostEntity> {
-    const post = await this.blogPostRepository.updatePost(id, dto);
-    if (!post) {
+    const updatedEntity = new BlogPostEntity({...dto, id});
+    try {
+      await this.blogPostRepository.update(updatedEntity);
+    } catch {
       throw new NotFoundException(BlogPostMessage.NotFoundById);
     }
 
-    await this.blogPostRepository.save(post);
-    return post;
+    return updatedEntity;
   }
 
   public async deletePostById(id: string): Promise<void> {
-    await this.findPostById(id);
     await this.blogPostRepository.deleteById(id);
   }
 

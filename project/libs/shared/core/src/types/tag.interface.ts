@@ -1,3 +1,6 @@
 export interface Tag {
-  text: string;
+  id?: string | undefined;
+  title: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

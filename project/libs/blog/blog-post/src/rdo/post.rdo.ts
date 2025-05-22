@@ -1,7 +1,7 @@
 import { Expose } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
-import { PostState, PostType, Tag } from '@project/core';
+import { Comment, PostState, PostType, Tag } from '@project/core';
 import { BlogPostApiProperty } from '../blog-post-module/blog-post.property';
 
 export class PostRDO {
@@ -38,12 +38,12 @@ export class PostRDO {
   public author?: string;
 
   @ApiProperty(BlogPostApiProperty.CreatedDate)
-  @Expose({ name: 'createdAt' })
-  public createdDate!: Date;
+  @Expose()
+  public createdAt!: Date;
 
   @ApiProperty(BlogPostApiProperty.UpdatedDate)
-  @Expose({ name: 'updatedAt' })
-  public publishDate!: Date;
+  @Expose()
+  public updatedAt!: Date;
 
   @ApiProperty(BlogPostApiProperty.IsReposted)
   @Expose()
@@ -80,5 +80,8 @@ export class PostRDO {
   @ApiProperty(BlogPostApiProperty.Tags)
   @Expose()
   public tags?: Tag[];
+
+  @Expose()
+  public comments?: Comment[];
 }
 

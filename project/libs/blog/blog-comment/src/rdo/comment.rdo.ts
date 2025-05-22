@@ -10,7 +10,7 @@ export class CommentRDO {
 
   @ApiProperty(BlogCommentApiProperty.Text)
   @Expose()
-  public text!: string;
+  public message!: string;
 
   @ApiProperty(BlogCommentApiProperty.UserId)
   @Expose()
@@ -21,6 +21,10 @@ export class CommentRDO {
   public postId!: string;
 
   @ApiProperty(BlogCommentApiProperty.CreateDate)
-   @Expose()
-  public createDate!: Date;
+  @Expose()
+  public createAt!: Date;
+
+  @ApiProperty(BlogCommentApiProperty.UpdateDate)
+  @Expose()
+  public updateAt!: Date;
 }

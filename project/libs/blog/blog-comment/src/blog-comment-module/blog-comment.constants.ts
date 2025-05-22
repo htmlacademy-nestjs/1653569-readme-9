@@ -53,5 +53,8 @@ export const BlogCommentValidateLength = {
   Text: {
     Min: 10,
     Max: 300,
+  },
+  Comment: {
+    Max: 10,
   }
 } as const;
