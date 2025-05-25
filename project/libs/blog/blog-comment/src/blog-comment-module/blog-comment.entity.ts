@@ -1,35 +1,38 @@
 import { StorableEntity, Entity, Comment } from '@project/core';
 
 export class BlogCommentEntity extends Entity implements StorableEntity<Comment>  {
-    public text!: string;
-    public postId!: string;
+    public message!: string;
     public userId!: string;
-    public createdDate!: Date;
+    public postId!: string;
+    public createdAt?: Date;
+    public updatedAt?: Date;
 
-    constructor(comment: Comment) {
+    constructor(comment?: Comment) {
       super()
       this.populate(comment);
     }
 
-    public populate(comment: Comment) {
+    public populate(comment?: Comment): void {
       if (!comment) {
         return;
       }
 
-      this.id = comment.id ?? ''
-      this.text = comment.text;
-      this.postId = comment.postId;
+      this.id = comment.id
+      this.message = comment.message;
       this.userId = comment.userId;
-      this.createdDate = comment.createdDate ?? new Date();
+      this.postId = comment.postId;
+      this.createdAt = comment.createdAt;
+      this.updatedAt = comment.updatedAt;
     }
 
     public toPOJO() {
       return {
         id: this.id,
-        text: this.text,
-        postId: this.postId,
+        message: this.message,
         userId: this.userId,
-        createdDate: this.createdDate,
+        postId: this.postId,
+        createdAt: this.createdAt,
+        updatedAt: this.updatedAt,
       };
     }
   }
