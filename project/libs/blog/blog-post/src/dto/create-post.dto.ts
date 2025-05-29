@@ -5,6 +5,7 @@ import {
   IsArray,
   IsBoolean,
   IsEnum,
+  IsMongoId,
   IsNumber,
   IsOptional,
   IsString,
@@ -13,15 +14,11 @@ import {
   Length
 } from 'class-validator';
 
-import { Comment, PostState, PostType, Tag } from '@project/core';
+import { Comment, PostState, PostType } from '@project/core';
 import { BlogPostApiProperty } from '../blog-post-module/blog-post.property';
 import { BlogPostValidateLength } from '../blog-post-module/blog-post.constants';
 
 export class CreatePostDTO {
-  @IsUUID()
-  @ApiProperty(BlogPostApiProperty.Id)
-  public id?: string;
-
   @IsOptional()
   @IsString()
   @Length(BlogPostValidateLength.Title.Min, BlogPostValidateLength.Title.Max)
@@ -89,7 +86,7 @@ export class CreatePostDTO {
   @IsArray()
   public comments?: Comment[];
 
-  @IsUUID()
+  @IsMongoId()
   @ApiProperty(BlogPostApiProperty.UserId)
   public userId!: string;
 
@@ -98,12 +95,11 @@ export class CreatePostDTO {
   public state!: PostState;
 
   @IsArray()
+  @IsUUID('all', { each: true })
   @ArrayMinSize(BlogPostValidateLength.Tags.Min)
   @ArrayMaxSize(BlogPostValidateLength.Tags.Max)
-  @IsString({ each: true })
-  @Length(BlogPostValidateLength.Tag.Min, BlogPostValidateLength.Tag.Max)
   @ApiProperty(BlogPostApiProperty.Tags)
-  public tags?: Tag[];
+  public tags?: string[];
 
   @IsEnum(PostType)
   @ApiProperty(BlogPostApiProperty.Type)

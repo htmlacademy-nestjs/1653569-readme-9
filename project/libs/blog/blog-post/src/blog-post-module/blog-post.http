@@ -1,55 +1,68 @@
 # Create post:
-POST http://localhost:3000/api/post HTTP/1.1
+POST http://localhost:4000/api/posts HTTP/1.1
 Content-Type: application/json
 
 {
   "title": "Some title of new tech post",
-  "announcement": "Some announcement of new tech post",
-  "text": "Some text of new tech post",
+  "announcement": "Some announcement of new tech post. Today you can find the best tech news and reviews.",
+  "text": "Some text of new tech post. This be the best tech post you can find on the internet. We talks about the best tech news and reviews.",
   "isReposted": false,
   "commentCount": 0,
   "likeCount": 0,
   "userId": "8231762309c030b503e30915",
   "state": "published",
   "type": "text",
-  "tags": ["tech", "new", "post"]
+  "tags": ["de246916-6651-4f7b-b499-5eabf746cfdf", "7a8bbcbe-a772-4bd1-ae93-569df310eefb", "b977efda-ac9a-4079-9a4b-62f22ad83b53"]
 }
 
 ###
 
 # Get all posts:
-GET http://localhost:3000/api/post/list HTTP/1.1
+GET http://localhost:4000/api/posts HTTP/1.1
 Content-Type: application/json
 
 ###
 
+# Get posts with filter
+GET http://localhost:4000/api/posts?limit=2&sortDirection=desc&tags[]=de246916-6651-4f7b-b499-5eabf746cfdf&page=1 HTTP/1.1
+
+###
+
 # Get post by ID:
-GET http://localhost:3000/api/post/6d308040-96a2-4162-bea6-2338e9976540 HTTP/1.1
+GET http://localhost:4000/api/posts/6d308040-96a2-4162-bea6-2338e9976540 HTTP/1.1
 Content-Type: application/json
 
 ###
 
 # Get post by title:
-GET http://localhost:3000/api/post?title=Some title of new tech post HTTP/1.1
+GET http://localhost:4000/api/posts?title=Some title of new tech post HTTP/1.1
 Content-Type: application/json
 
 ###
 
 # Delete post by ID:
-DELETE http://localhost:3000/api/post/06f13e5f-233e-4603-acf9-1baa5a936040 HTTP/1.1
+DELETE http://localhost:4000/api/posts/06f13e5f-233e-4603-acf9-1baa5a936040 HTTP/1.1
 Content-Type: application/json
 
 ###
 
 # Update post by ID:
-PATCH http://localhost:3000/api/post/87fbf4c7-2115-41ff-bb50-1d061acc7928 HTTP/1.1
+PATCH http://localhost:4000/api/posts/87fbf4c7-2115-41ff-bb50-1d061acc7928 HTTP/1.1
 Content-Type: application/json
 
 {
-  "title": "New amazing title",
-  "announcement": "New amazing announcement",
-  "text": "New amazing text",
-  "tags": ["digital"]
+  "title": "New amazing title for populated tech post"
+}
+
+###
+
+# Create new comment for post:
+POST http://localhost:4000/api/posts/a7f2d7e2-7b40-4b36-b7a5-97e78f22d839/comments HTTP/1.1
+Content-Type: application/json
+
+{
+  "message": "New amazing comment",
+  "userId":"6581762309c030b503e30512"
 }
 
 ###

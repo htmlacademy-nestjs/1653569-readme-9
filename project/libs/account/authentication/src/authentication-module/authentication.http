@@ -3,7 +3,7 @@ POST http://localhost:3000/api/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "user@notfound.local",
+  "email": "user@notfound33.local",
   "name": "Alex",
   "password": "123456",
   "avatarPath": "https://i.pravatar.cc/300"
@@ -12,7 +12,8 @@ Content-Type: application/json
 ###
 
 # Get user by ID
-GET http://localhost:3000/api/auth/68231b887ab53c01ea50e298 HTTP/1.1
+GET http://localhost:3000/api/auth/682376a4d507113c3947fab4 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODIzNzZhNGQ1MDcxMTNjMzk0N2ZhYjQiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJuYW1lIjoiQWxleCIsImlhdCI6MTc0ODM3OTMzMiwiZXhwIjoxNzQ4Mzc5NjMyfQ.bNmcGcoah7bDKf5ixGcnXVVm0eOoIDj1HGtduxi_br8
 
 ###
 

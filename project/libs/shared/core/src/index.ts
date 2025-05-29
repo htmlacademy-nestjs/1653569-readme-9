@@ -1,9 +1,14 @@
 export { Entity } from './base/entity';
 export { PostType } from './types/post-type.enum';
 export { PostState } from './types/post-state.enum';
+export { SortDirection } from './interfaces/sort-direction.interface';
 
 export type { EntityFactory } from './interfaces/entity-factory.interface';
 export type { StorableEntity } from './interfaces/storable-entity.interface';
+export type { PaginationResult } from './interfaces/pagination.interface';
+export type { Token } from './interfaces/token.interface';
+export type { TokenPayload } from './interfaces/token-payload.interface';
+
 export type { User } from './types/user.interface';
 export type { AuthUser } from './types/auth-user.interface';
 export type { Post } from './types/post.interface';

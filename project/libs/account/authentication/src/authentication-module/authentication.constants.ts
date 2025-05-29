@@ -7,6 +7,7 @@ export const AuthUserMessage = {
   AlreadyExists: 'User with this email exists',
   NotFound: 'User not found',
   PasswordWrong: 'User password is wrong',
+  EmailNotValid: 'User email is not valid'
 } as const;
 
 export const AuthUserApiOperation = {

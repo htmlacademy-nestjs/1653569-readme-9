@@ -1,21 +1,29 @@
-import { ConflictException, Inject, Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { ConfigType } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+import {
+  ConflictException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+  Logger
+} from '@nestjs/common';
 
 import { BlogUserRepository, BlogUserEntity } from '@project/blog-user';
-import { dbConfig } from '@project/account-config';
-import { AuthUserMessage } from './authentication.constants';
+import { Token, TokenPayload, User } from '@project/core';
+
 import { CreateUserDTO } from '../dto/create-user.dto';
 import { LoginUserDTO } from '../dto/login-user.dto';
+import { AuthUserMessage } from './authentication.constants';
 
 @Injectable()
 export class AuthenticationService {
+  private readonly logger = new Logger(AuthenticationService.name);
+
   constructor(
     private readonly blogUserRepository: BlogUserRepository,
-    @Inject(dbConfig.KEY) private readonly databaseConfig: ConfigType<typeof dbConfig>,
-  ) {
-    Logger.log(databaseConfig.host);
-    Logger.log(databaseConfig.user);
-  }
+    private readonly jwtService: JwtService,
+  ) {}
 
   public async registerUser(dto: CreateUserDTO): Promise<BlogUserEntity> {
     const { name, email, avatarPath, password } = dto;
@@ -24,6 +32,9 @@ export class AuthenticationService {
       name,
       email,
       avatarPath,
+      createdAt: new Date(),
+      postCount: 0,
+      subscribers: [],
       passwordHash: ''
     };
 
@@ -33,7 +44,7 @@ export class AuthenticationService {
     }
 
     const userEntity = await new BlogUserEntity(blogUser).setPassword(password)
-    this.blogUserRepository.save(userEntity);
+    await this.blogUserRepository.save(userEntity);
     return userEntity;
   }
 
@@ -58,5 +69,21 @@ export class AuthenticationService {
     }
 
     return user;
+  }
+
+  public async createUserToken(user: User): Promise<Token> {
+    const payload: TokenPayload = {
+      sub: user.id as string,
+      email: user.email,
+      name: user.name,
+    };
+
+    try {
+      const accessToken = await this.jwtService.signAsync(payload);
+      return { accessToken };
+    } catch (error) {
+      this.logger.error('[Token generation error]: ' + (error as Error).message);
+      throw new HttpException('Token creating error', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }

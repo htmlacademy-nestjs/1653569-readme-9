@@ -9,7 +9,7 @@ export const BlogCommentApiProperty = {
   },
   UserId: {
     description: 'The unique user ID',
-    example: 'a6da0ca2-6239-41a3-9f18-2f4280a6da78'
+    example: '6831db2570e279f3516bd62d'
   },
   PostId: {
     description: 'The unique post ID',

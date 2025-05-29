@@ -18,10 +18,10 @@ export interface Post {
   repostedUserId?: string;
   likeCount: number;
   commentCount: number;
-  comments?: Comment[];
+  comments: Comment[];
   createdAt?: Date;
   updatedAt?: Date;
-  state?: PostState;
+  state: PostState;
   type: PostType;
-  tags?: Tag[];
+  tags: Tag[];
 }

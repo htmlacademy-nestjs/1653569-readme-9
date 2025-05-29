@@ -1,5 +1,5 @@
-import { Controller, Get, Param, Post, Body, Query } from '@nestjs/common';
-import { ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { Controller, Get, Param, Post, Body, Query, ParseUUIDPipe } from '@nestjs/common';
+import { ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { fillDTO } from '@project/helpers';
 import { BlogTagService } from './blog-tag.service';
@@ -8,6 +8,7 @@ import { TagRDO } from '../rdo/tag.rdo';
 import { BlogTagApiOperation, BlogTagApiParam, BlogTagApiResponse } from './blog-tag.constants';
 import { BlogTagApiProperty } from './blog-tag.property';
 
+@ApiTags('Tags')
 @Controller('tags')
 export class BlogTagController {
   constructor(
@@ -22,19 +23,21 @@ export class BlogTagController {
     return fillDTO(TagRDO, tagEntities);
   }
 
+  @ApiOperation(BlogTagApiOperation.FindById)
   @ApiParam(BlogTagApiParam.Id)
   @ApiResponse(BlogTagApiResponse.Found)
   @ApiResponse(BlogTagApiResponse.NotFound)
   @Get('/:id')
-  public async showById(@Param('id') id: string) {
+  public async showById(@Param('id', ParseUUIDPipe) id: string) {
     const tagEntity = await this.blogTagService.getTagById(id);
     return fillDTO(TagRDO, tagEntity.toPOJO());
   }
 
+  @ApiOperation(BlogTagApiOperation.FindByTitle)
   @ApiQuery(BlogTagApiProperty.Title)
   @ApiResponse(BlogTagApiResponse.Found)
   @ApiResponse(BlogTagApiResponse.NotFound)
-  @Get()
+  @Get('/')
   public async showByTitle(@Query('title') title: string) {
     const tagEntity = await this.blogTagService.getTagByTitle(title);
     return fillDTO(TagRDO, tagEntity.toPOJO());
@@ -43,7 +46,7 @@ export class BlogTagController {
   @ApiOperation(BlogTagApiOperation.Create)
   @ApiResponse(BlogTagApiResponse.Created)
   @ApiResponse(BlogTagApiResponse.Conflict)
-  @Post()
+  @Post('/')
   public async create(@Body() dto: CreateTagDTO) {
     const newTag = await this.blogTagService.createTag(dto);
     return fillDTO(TagRDO, newTag.toPOJO());
