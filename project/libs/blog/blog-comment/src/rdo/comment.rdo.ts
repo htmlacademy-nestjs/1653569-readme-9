@@ -4,10 +4,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { BlogCommentApiProperty } from '../blog-comment-module/blog-comment.property';
 
 export class CommentRDO {
-  @ApiProperty(BlogCommentApiProperty.Id)
-  @Expose()
-  public id?: string;
-
   @ApiProperty(BlogCommentApiProperty.Text)
   @Expose()
   public message!: string;

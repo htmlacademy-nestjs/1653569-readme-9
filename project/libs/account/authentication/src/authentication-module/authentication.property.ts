@@ -1,7 +1,7 @@
 export const AuthUserApiProperty = {
   Id: {
     description: 'The unique user ID',
-    example: '90fea18a-a714-44ba-9503-23f093cefb16'
+    example: '6831db2570e279f3516bd62d'
   },
   Email: {
     description: 'The unique user email',
@@ -18,6 +18,18 @@ export const AuthUserApiProperty = {
   AvatarPath: {
     description: 'The user avatar path',
     example: '/img/avatar.jpg'
+  },
+  RegisterDate: {
+    description: 'The user register date',
+    example: '2022-01-01T00:00:00.000Z'
+  },
+  PostCount: {
+    description: 'The user post count',
+    example: 10
+  },
+  Subscribers: {
+    description: 'The user\'s subscribers',
+    example: ['6831db2570e279f3516bd62d', '2484db2570e279f3516bd62e']
   },
   AccessToken: {
     description: 'The user access JWT token',

@@ -1,14 +1,11 @@
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
-import { Comment, PostState, PostType, Tag } from '@project/core';
+import { Comment, PostState, PostType } from '@project/core';
+import { TagRDO } from '@project/blog-tag';
 import { BlogPostApiProperty } from '../blog-post-module/blog-post.property';
 
 export class PostRDO {
-  @ApiProperty(BlogPostApiProperty.Id)
-  @Expose()
-  public id?: string;
-
   @ApiProperty(BlogPostApiProperty.Title)
   @Expose()
   public title?: string;
@@ -21,67 +18,68 @@ export class PostRDO {
   @Expose()
   public announcement?: string;
 
-  @ApiProperty(BlogPostApiProperty.LinkPath)
-  @Expose()
-  public linkPath?: string;
-
   @ApiProperty(BlogPostApiProperty.Description)
   @Expose()
   public description?: string;
 
   @ApiProperty(BlogPostApiProperty.Quote)
   @Expose()
-  public quote?: string;
+  public quoteText?: string;
 
   @ApiProperty(BlogPostApiProperty.Author)
   @Expose()
-  public author?: string;
+  public quoteAuthor?: string;
 
-  @ApiProperty(BlogPostApiProperty.CreatedDate)
+  @ApiProperty(BlogPostApiProperty.LinkPath)
   @Expose()
-  public createdAt!: Date;
-
-  @ApiProperty(BlogPostApiProperty.UpdatedDate)
-  @Expose()
-  public updatedAt!: Date;
-
-  @ApiProperty(BlogPostApiProperty.IsReposted)
-  @Expose()
-  public isReposted!: boolean;
-
-  @ApiProperty(BlogPostApiProperty.RepostUserId)
-  @Expose()
-  public repostUserId?: string;
+  public linkPath?: string;
 
   @ApiProperty(BlogPostApiProperty.RepostPostId)
   @Expose()
-  public repostPostId?: string;
+  public repostedPostId?: string;
+
+  @ApiProperty(BlogPostApiProperty.RepostUserId)
+  @Expose()
+  public repostedUserId?: string;
+
+  @ApiProperty(BlogPostApiProperty.IsReposted)
+  @Expose()
+  public isReposted?: boolean;
 
   @ApiProperty(BlogPostApiProperty.CommentCount)
   @Expose()
-  public commentCount!: number;
+  public commentCount?: number;
 
   @ApiProperty(BlogPostApiProperty.LikeCount)
   @Expose()
-  public likeCount!: number;
-
-  @ApiProperty(BlogPostApiProperty.UserId)
-  @Expose()
-  public userId!: string;
-
-  @ApiProperty(BlogPostApiProperty.Type)
-  @Expose()
-  public type!: PostType;
-
-  @ApiProperty(BlogPostApiProperty.State)
-  @Expose()
-  public state!: PostState;
-
-  @ApiProperty(BlogPostApiProperty.Tags)
-  @Expose()
-  public tags?: Tag[];
+  public likeCount?: number;
 
   @Expose()
   public comments?: Comment[];
+
+  @ApiProperty(BlogPostApiProperty.UserId)
+  @Expose()
+  public userId?: string;
+
+  @ApiProperty(BlogPostApiProperty.CreatedDate)
+  @Expose()
+  public createdAt?: Date;
+
+  @ApiProperty(BlogPostApiProperty.UpdatedDate)
+  @Expose()
+  public updatedAt?: Date;
+
+  @ApiProperty(BlogPostApiProperty.State)
+  @Expose()
+  public state?: PostState;
+
+  @ApiProperty(BlogPostApiProperty.Type)
+  @Expose()
+  public type?: PostType;
+
+  @ApiProperty(BlogPostApiProperty.Tags)
+  @Expose()
+  @Type(() => TagRDO)
+  public tags?: TagRDO[];
 }
 

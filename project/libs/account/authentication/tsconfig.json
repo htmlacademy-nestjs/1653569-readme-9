@@ -4,10 +4,16 @@
   "include": [],
   "references": [
     {
+      "path": "../../shared/core"
+    },
+    {
       "path": "../config"
     },
     {
       "path": "../blog-user"
+    },
+    {
+      "path": "../../shared/pipes"
     },
     {
       "path": "../../shared/helpers"

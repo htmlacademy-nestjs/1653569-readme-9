@@ -4,8 +4,8 @@ export class BlogCommentEntity extends Entity implements StorableEntity<Comment>
     public message!: string;
     public userId!: string;
     public postId!: string;
-    public createdAt?: Date;
-    public updatedAt?: Date;
+    public createdAt!: Date;
+    public updatedAt!: Date;
 
     constructor(comment?: Comment) {
       super()
@@ -17,10 +17,10 @@ export class BlogCommentEntity extends Entity implements StorableEntity<Comment>
         return;
       }
 
-      this.id = comment.id
+      this.id = comment.id ?? undefined;
       this.message = comment.message;
       this.userId = comment.userId;
-      this.postId = comment.postId;
+      this.postId = comment.postId ?? undefined;
       this.createdAt = comment.createdAt;
       this.updatedAt = comment.updatedAt;
     }

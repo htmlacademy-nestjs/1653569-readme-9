@@ -1,18 +1,20 @@
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { AppModule } from './app/app.module';
 import { ConfigService } from '@nestjs/config';
+
+import { AppModule } from './app/app.module';
 
 const GLOBAL_PREFIX = 'api';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix(GLOBAL_PREFIX);
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   const config = new DocumentBuilder()
   .setTitle('Readme blog')
-  .setDescription('The blog API description')
+  .setDescription('The Account API service')
   .setVersion('1.0')
   .build();
 

@@ -4,11 +4,13 @@ import { TagRDO } from "../rdo/tag.rdo";
 
 export const BlogTagMessage = {
   OneNotFound: 'Tag not found',
-  SeveralNotFound: 'Tags not found',
+  ManyNotFound: 'Tags not found',
 } as const
 
 export const BlogTagApiOperation = {
   FindAll: { summary: "Find all tags" },
+  FindById: { summary: "Find tag by ID" },
+  FindByTitle: { summary: "Find tag by title" },
   Create: { summary: "Create new tag" },
 } as const;
 
@@ -41,8 +43,8 @@ export const BlogTagApiResponse = {
 } as const;
 
 export const BlogTagValidateLength = {
-  Text: {
-    Min: 10,
-    Max: 300,
+  Title: {
+    Min: 3,
+    Max: 10,
   }
 } as const;

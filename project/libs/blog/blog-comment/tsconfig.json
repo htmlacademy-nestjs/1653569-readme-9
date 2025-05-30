@@ -4,10 +4,10 @@
   "include": [],
   "references": [
     {
-      "path": "../models"
+      "path": "../../shared/data-access"
     },
     {
-      "path": "../../shared/data-access"
+      "path": "../models"
     },
     {
       "path": "../../shared/core"

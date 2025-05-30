@@ -1,13 +1,20 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { fillDTO } from '@project/helpers';
-import { AuthUserApiOperation, AuthUserApiParam, AuthUserApiResponse } from './authentication.constants';
+import { MongoIdValidationPipe } from '@project/pipes';
+
 import { AuthenticationService } from './authentication.service';
 import { CreateUserDTO } from '../dto/create-user.dto';
 import { LoginUserDTO } from '../dto/login-user.dto';
 import { LoggedUserRDO } from '../rdo/logged-user.rdo';
 import { UserRDO } from '../rdo/user.rdo';
+import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+import {
+  AuthUserApiOperation,
+  AuthUserApiParam,
+  AuthUserApiResponse
+} from './authentication.constants';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -31,15 +38,17 @@ export class AuthenticationController {
   @Post('login')
   public async login(@Body() dto: LoginUserDTO) {
     const verifiedUser = await this.authService.verifyUser(dto);
-    return fillDTO(LoggedUserRDO, verifiedUser.toPOJO());
+    const userToken = await this.authService.createUserToken(verifiedUser);
+    return fillDTO(LoggedUserRDO, { ...verifiedUser.toPOJO(), ...userToken });
   }
 
   @ApiOperation(AuthUserApiOperation.User)
   @ApiResponse(AuthUserApiResponse.Found)
   @ApiResponse(AuthUserApiResponse.NotFound)
   @ApiParam(AuthUserApiParam.UserId)
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
-  public async show(@Param('id') id: string) {
+  public async show(@Param('id', MongoIdValidationPipe) id: string) {
     const existUser = await this.authService.getUser(id);
     return fillDTO(UserRDO, existUser.toPOJO());
   }

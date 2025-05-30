@@ -5,6 +5,10 @@ import { Entity, StorableEntity, EntityFactory } from '@project/core';
 import { Nullable } from '@project/helpers';
 import { Repository } from './repository.interface';
 
+interface WithId {
+  id: string;
+}
+
 export abstract class BaseMongoRepository<
   T extends Entity & StorableEntity<ReturnType<T['toPOJO']>>,
   DocumentType extends Document
@@ -15,13 +19,13 @@ export abstract class BaseMongoRepository<
     protected readonly model: Model<DocumentType>,
   ) {}
 
-
   protected createEntityFromDocument(document: DocumentType): Nullable<T> {
     if (!document) {
       return null;
     }
 
-    const plainObject = document.toObject({ versionKey: false }) as ReturnType<T['toPOJO']>;
+    const plainObject = document.toObject({ versionKey: false }) as ReturnType<T['toPOJO']> & WithId;
+    plainObject.id = (document._id as string).toString();
     return this.entityFactory.create(plainObject);
   }
 

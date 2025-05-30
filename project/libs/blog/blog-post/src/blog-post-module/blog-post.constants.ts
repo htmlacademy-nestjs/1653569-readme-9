@@ -2,6 +2,7 @@ import { HttpStatus } from "@nestjs/common";
 
 import { BlogPostApiProperty } from "./blog-post.property";
 import { PostRDO } from "../rdo/post.rdo";
+import { SortDirection } from "@project/core";
 
 export const BlogPostMessage = {
   NotFoundById: 'Post with this postID not found',
@@ -92,4 +93,10 @@ export const BlogPostValidateLength = {
     Min: 0,
     Max: 8,
   },
+} as const;
+
+export const BlogPostDefault = {
+  PostCountLimit: 25,
+  PageCount: 1,
+  SortDirection: SortDirection.Desc,
 } as const;

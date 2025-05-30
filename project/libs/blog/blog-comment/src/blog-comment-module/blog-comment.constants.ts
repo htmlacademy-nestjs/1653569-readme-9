@@ -3,8 +3,10 @@ import { BlogCommentApiProperty } from "./blog-comment.property";
 import { CommentRDO } from "../rdo/comment.rdo";
 
 export const BlogCommentMessage = {
-  OneNotFound: 'Comment not found',
-  SeveralNotFound: 'Comments for this postID not found',
+  OneNotFound: 'Comment with this ID not found',
+  ManyNotFound: 'Comments for this postID not found',
+  InvalidId: 'Invalid author ID',
+  IsNotEmpty: 'Field must not be empty',
 } as const
 
 export const BlogCommentApiOperation = {
@@ -41,7 +43,7 @@ export const BlogCommentApiResponse = {
   },
   NotFoundByPostId: {
     status: HttpStatus.NOT_FOUND,
-    description: BlogCommentMessage.SeveralNotFound
+    description: BlogCommentMessage.ManyNotFound
   },
   Deleted: {
     status: HttpStatus.NO_CONTENT,

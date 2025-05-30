@@ -17,14 +17,14 @@ export class BlogCommentRepository extends BasePostgresRepository<BlogCommentEnt
     super(entityFactory, client);
   }
 
-  public async find(postId: string): Promise<BlogCommentEntity[]> {
+  public async findByPostId(postId: string): Promise<BlogCommentEntity[]> {
     const comments = await this.client.comment.findMany({
       where: { postId },
       take: BlogCommentValidateLength.Comment.Max,
     });
 
     if (!comments.length) {
-        throw new NotFoundException(BlogCommentMessage.SeveralNotFound);
+        throw new NotFoundException(BlogCommentMessage.ManyNotFound);
     }
 
     return comments.map((comment) => this.createEntityFromDocument(comment));
@@ -38,7 +38,7 @@ export class BlogCommentRepository extends BasePostgresRepository<BlogCommentEnt
   public override async findById(id: string): Promise<BlogCommentEntity> {
     const comment = await this.client.comment.findFirst({ where: { id } });
     if (!comment) {
-      throw new NotFoundException(`Comment with id ${id} not found.`);
+      throw new NotFoundException(BlogCommentMessage.OneNotFound);
     }
 
     return this.createEntityFromDocument(comment);
