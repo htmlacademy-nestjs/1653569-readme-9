@@ -15,6 +15,7 @@ import { Token, TokenPayload, User } from '@project/core';
 import { CreateUserDTO } from '../dto/create-user.dto';
 import { LoginUserDTO } from '../dto/login-user.dto';
 import { AuthUserMessage } from './authentication.constants';
+import { AccountNotifyService } from '@project/account-notify';
 
 @Injectable()
 export class AuthenticationService {
@@ -22,6 +23,7 @@ export class AuthenticationService {
 
   constructor(
     private readonly blogUserRepository: BlogUserRepository,
+    private readonly notifyService: AccountNotifyService,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -45,6 +47,8 @@ export class AuthenticationService {
 
     const userEntity = await new BlogUserEntity(blogUser).setPassword(password)
     await this.blogUserRepository.save(userEntity);
+    await this.notifyService.registerSubscriber(dto);
+
     return userEntity;
   }
 

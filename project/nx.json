@@ -34,7 +34,12 @@
         "libs/blog/blog-comment/*",
         "libs/account/config/*",
         "libs/blog/blog-tag/*",
-        "libs/blog/blog-like/*"
+        "libs/blog/blog-like/*",
+        "libs/storage/config/*",
+        "libs/storage/file-uploader/*",
+        "libs/notify/config/*",
+        "libs/notify/email-subscriber/*",
+        "libs/account/notify/*"
       ]
     },
     {
@@ -62,7 +67,12 @@
         "libs/blog/blog-comment/*",
         "libs/account/config/*",
         "libs/blog/blog-tag/*",
-        "libs/blog/blog-like/*"
+        "libs/blog/blog-like/*",
+        "libs/storage/config/*",
+        "libs/storage/file-uploader/*",
+        "libs/notify/config/*",
+        "libs/notify/email-subscriber/*",
+        "libs/account/notify/*"
       ],
       "options": {
         "typecheck": {

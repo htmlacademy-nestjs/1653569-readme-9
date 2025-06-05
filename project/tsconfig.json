@@ -53,6 +53,21 @@
     },
     {
       "path": "./libs/blog/blog-like"
+    },
+    {
+      "path": "./libs/storage/config"
+    },
+    {
+      "path": "./libs/storage/file-uploader"
+    },
+    {
+      "path": "./libs/notify/config"
+    },
+    {
+      "path": "./libs/notify/email-subscriber"
+    },
+    {
+      "path": "./libs/account/notify"
     }
   ]
 }
