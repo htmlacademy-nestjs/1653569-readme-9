@@ -21,6 +21,9 @@
   ],
   "references": [
     {
+      "path": "../../libs/account/notify/tsconfig.lib.json"
+    },
+    {
       "path": "../../libs/account/config/tsconfig.lib.json"
     },
     {

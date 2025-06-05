@@ -28,15 +28,15 @@
           "build"
         ],
         "options": {
-          "buildTarget": "@project/storage:build",
+          "buildTarget": "storage:build",
           "runBuildTargetDependencies": false
         },
         "configurations": {
           "development": {
-            "buildTarget": "@project/storage:build:development"
+            "buildTarget": "storage:build:development"
           },
           "production": {
-            "buildTarget": "@project/storage:build:production"
+            "buildTarget": "storage:build:production"
           }
         }
       }

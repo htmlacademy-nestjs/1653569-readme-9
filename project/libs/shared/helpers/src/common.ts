@@ -9,6 +9,13 @@ interface mongoConnectionOptions {
   authDatabase: string;
 }
 
+interface rabbitConnectionOptions {
+  username: string;
+  password: string;
+  host: string;
+  port: number;
+}
+
 export function fillDTO<T, V>(
   DTOClass: new () => T,
   plainObject: V,
@@ -27,8 +34,8 @@ export function fillDTO<T, V>(
   options?: ClassTransformOptions,
 ): T | T[] {
   return plainToInstance(DTOClass, plainObject, {
-      excludeExtraneousValues: true,
-      ...options,
+    excludeExtraneousValues: true,
+    ...options,
   });
 }
 
@@ -41,4 +48,13 @@ export function getMongoConnectionString({
   authDatabase
 }: mongoConnectionOptions): string {
   return `mongodb://${username}:${password}@${host}:${port}/${databaseName}?authSource=${authDatabase}`;
+}
+
+export function getRabbitMQConnectionString({
+  username,
+  password,
+  host,
+  port
+}: rabbitConnectionOptions): string {
+  return `amqp://${username}:${password}@${host}:${port}`;
 }

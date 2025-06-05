@@ -13,10 +13,7 @@
       "path": "../blog-user"
     },
     {
-      "path": "../../shared/pipes"
-    },
-    {
-      "path": "../../shared/helpers"
+      "path": "../notify"
     },
     {
       "path": "./tsconfig.lib.json"
