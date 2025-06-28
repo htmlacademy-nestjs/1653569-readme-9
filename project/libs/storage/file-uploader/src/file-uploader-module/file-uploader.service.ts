@@ -1,6 +1,6 @@
 import 'multer';
 import dayjs from 'dayjs';
-import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { ensureDir } from 'fs-extra';
 import { extension } from 'mime-types';
@@ -14,6 +14,7 @@ import { StoredFile } from '@project/core';
 import { FileUploaderRepository } from './file-uploader.repository';
 import { FileUploaderEntity } from './file-uploader.entity';
 import { FileUploaderFactory } from './file-uploader.factory';
+import { FileSizeLimit, FileUploaderMessage } from './file-uploader.constants';
 
 @Injectable()
 export class FileUploaderService {
@@ -63,6 +64,14 @@ export class FileUploaderService {
   }
 
   public async saveFile(file: Express.Multer.File): Promise<FileUploaderEntity> {
+    if (file.originalname === 'avatar.jpg' && file.size > FileSizeLimit.Avatar) {
+      throw new BadRequestException(FileUploaderMessage.Avatar.LargeSize);
+    }
+
+    if (file.originalname === 'image.jpg' && file.size > FileSizeLimit.Image) {
+      throw new BadRequestException(FileUploaderMessage.Image.LargeSize);
+    }
+
     const storedFile = await this.writeFile(file);
     const fileEntity = new FileUploaderFactory().create({
       hashName: storedFile.filename,

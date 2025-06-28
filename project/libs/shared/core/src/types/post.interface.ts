@@ -1,27 +1,34 @@
-import { PostState } from './post-state.enum';
+import { LinkPost, PhotoPost, QuotePost, TextPost, VideoPost } from '../index';
 import { PostType } from './post-type.enum';
-import { Comment } from './comment.interface';
+import { PostStatus } from './post-status.enum';
 import { Tag } from './tag.interface';
 
 export interface Post {
   id?: string;
-  title?: string;
-  text?: string;
-  announcement?: string;
-  description?: string;
-  quoteText?: string;
-  quoteAuthor?: string;
-  linkPath?: string;
   userId: string;
-  isReposted: boolean;
-  repostedPostId?: string;
-  repostedUserId?: string;
-  likeCount: number;
-  commentCount: number;
-  comments: Comment[];
   createdAt?: Date;
   updatedAt?: Date;
-  state: PostState;
+  postedAt?: Date;
+  isReposted: boolean;
+  repostedUserId?: string;
+  repostedPostId?: string;
+  likeCount?: number;
+  commentCount?: number;
+  status: PostStatus;
   type: PostType;
   tags: Tag[];
+  video?: VideoPost;
+  photo?: PhotoPost;
+  link?: LinkPost;
+  quote?: QuotePost;
+  text?: TextPost;
+  videoId?: string;
+  photoId?: string;
+  linkId?: string;
+  quoteId?: string;
+  textId?: string;
+  _count?: {
+    comments: number;
+    likes: number;
+  }
 }

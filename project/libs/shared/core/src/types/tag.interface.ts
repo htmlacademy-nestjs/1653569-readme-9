@@ -1,5 +1,5 @@
 export interface Tag {
-  id?: string | undefined;
+  id?: string;
   title: string;
   createdAt?: Date;
   updatedAt?: Date;

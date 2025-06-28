@@ -22,5 +22,25 @@ export const BlogCommentApiProperty = {
   UpdateDate: {
     description: 'The date and time when the comment was last updated',
     example: '2022-01-02T12:00:00Z'
-  }
+  },
+  Entities: {
+    description: 'List of items of selected Entity',
+    example: ['Comment1', 'Comment2']
+  },
+  TotalPages: {
+    description: 'Total page count of selected entity',
+    example: 10
+  },
+  CurrentPages: {
+    description: 'Current page number',
+    example: 2
+  },
+  TotalItems: {
+    description: 'Total items count of selected entity',
+    example: 50
+  },
+  ItemsPerPage: {
+    description: 'Number of items on one page',
+    example: 20
+  },
 } as const;

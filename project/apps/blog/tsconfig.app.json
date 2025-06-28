@@ -27,6 +27,9 @@
     },
     {
       "path": "../../libs/blog/blog-post/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/blog/config/tsconfig.lib.json"
     }
   ]
 }

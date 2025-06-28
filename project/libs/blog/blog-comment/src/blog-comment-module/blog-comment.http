@@ -1,11 +1,20 @@
-# Get all comments for post:
-GET http://localhost:4000/api/posts/6d308040-96a2-4162-bea6-2338e9976540/comments HTTP/1.1
-Content-Type: application/json
+# Get comments for post:
+GET http://localhost:3002/api/comments/e3bf7830-78a4-4ba7-bfaa-2977f116051b HTTP/1.1
 
 ###
 
-# Delete comment by ID:
-DELETE http://localhost:4000/api/comments/500e0fa6-0565-4239-ade0-a28074a55204 HTTP/1.1
+# Create comment for post:
+POST http://localhost:3002/api/comments/e3bf7830-78a4-4ba7-bfaa-2977f116051b HTTP/1.1
 Content-Type: application/json
+
+{
+  "userId": "5381762309c030b503e30512",
+  "text": "Some comment text 5"
+}
+
+###
+
+# Delete comment:
+DELETE http://localhost:3002/api/comments/31afa529-ef01-4230-8190-b220048a0cae/685a8bd70e3f4cb5ba00b1e0 HTTP/1.1
 
 ###

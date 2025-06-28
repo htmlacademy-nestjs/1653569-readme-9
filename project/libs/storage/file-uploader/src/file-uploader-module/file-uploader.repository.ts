@@ -13,7 +13,7 @@ export class FileUploaderRepository extends BaseMongoRepository<FileUploaderEnti
   constructor(
     entityFactory: FileUploaderFactory,
     @InjectModel(FileModel.name) fileModel: Model<FileModel>
-    ) {
+  ) {
     super(entityFactory, fileModel);
   }
 }

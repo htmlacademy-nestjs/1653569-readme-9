@@ -27,6 +27,10 @@ export const AuthUserApiProperty = {
     description: 'The user post count',
     example: 10
   },
+  SubsciberCount: {
+    description: 'The user subscriber count',
+    example: 3
+  },
   Subscribers: {
     description: 'The user\'s subscribers',
     example: ['6831db2570e279f3516bd62d', '2484db2570e279f3516bd62e']
@@ -34,5 +38,9 @@ export const AuthUserApiProperty = {
   AccessToken: {
     description: 'The user access JWT token',
     example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30'
+  },
+  RefreshToken: {
+    description: 'The user refresh JWT token',
+    example: 'krJhbGciOiJIUzI1NiIsInR5cCI4IkpXVCJ3.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30'
   }
 } as const;

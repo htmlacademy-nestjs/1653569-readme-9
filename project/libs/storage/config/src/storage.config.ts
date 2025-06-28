@@ -2,7 +2,7 @@ import Joi from 'joi';
 import { registerAs } from '@nestjs/config';
 import { DECIMAL_RADIX } from '@project/helpers';
 
-const DEFAULT_PORT = 5000;
+const DEFAULT_PORT = 3004;
 const DEFAULT_UPLOAD_PATH = './uploads';
 const DEFAULT_MONGO_PORT = 27017;
 const ENVIRONMENTS = ['development', 'production', 'stage'] as const;

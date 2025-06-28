@@ -1,2 +1,9 @@
 export { BlogPostModule } from './blog-post-module/blog-post.module';
 export { BlogPostService } from './blog-post-module/blog-post.service';
+export { BlogPostWithPaginationRDO } from './rdo/blog-post-with-pagination.rdo';
+export { BlogPostQuery } from './blog-post-module/blog-post.query';
+export { BlogPostRDO } from './rdo/blog-post.rdo';
+export { UpdatePostDTO } from './dto/update-post.dto';
+export { CreatePostDTO } from './dto/create-post.dto'
+export { UserIdDTO } from './dto/user-id.dto';
+export { UserEmailDTO } from './dto/user-email.dto';

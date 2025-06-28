@@ -11,10 +11,10 @@ export class BlogLikeService {
   ) {}
 
   public async createLike(dto: CreateLikeDTO): Promise<BlogLikeEntity> {
-    return await this.blogLikeRepository.createLikeByPostId(dto.postId, dto.userId);
+    return await this.blogLikeRepository.createLike(dto.postId, dto.userId);
   }
 
   public async deleteLike(dto: CreateLikeDTO): Promise<void> {
-    return this.blogLikeRepository.deleteLikeByPostId(dto.postId, dto.userId);
+    return this.blogLikeRepository.deleteLike(dto.postId, dto.userId);
   }
 }

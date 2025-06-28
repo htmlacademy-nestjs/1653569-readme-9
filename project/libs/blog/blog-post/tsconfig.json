@@ -4,19 +4,22 @@
   "include": [],
   "references": [
     {
-      "path": "../../shared/data-access"
+      "path": "../models"
     },
     {
-      "path": "../models"
+      "path": "../../shared/data-access"
     },
     {
       "path": "../blog-tag"
     },
     {
-      "path": "../blog-comment"
+      "path": "../../shared/helpers"
     },
     {
-      "path": "../../shared/helpers"
+      "path": "../notify"
+    },
+    {
+      "path": "../blog-like"
     },
     {
       "path": "../../shared/core"

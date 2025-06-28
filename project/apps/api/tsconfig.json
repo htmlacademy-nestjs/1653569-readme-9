@@ -4,6 +4,27 @@
   "include": [],
   "references": [
     {
+      "path": "../../libs/shared/pipes"
+    },
+    {
+      "path": "../../libs/account/authentication"
+    },
+    {
+      "path": "../../libs/shared/core"
+    },
+    {
+      "path": "../../libs/shared/helpers"
+    },
+    {
+      "path": "../../libs/blog/blog-post"
+    },
+    {
+      "path": "../../libs/shared/interceptors"
+    },
+    {
+      "path": "../../libs/blog/blog-comment"
+    },
+    {
       "path": "./tsconfig.app.json"
     }
   ]

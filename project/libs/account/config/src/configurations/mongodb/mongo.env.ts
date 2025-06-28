@@ -1,4 +1,5 @@
 import { IsNumber, IsOptional, IsString, Max, Min, validateOrReject } from 'class-validator';
+import { Logger } from '@nestjs/common';
 
 import { EnvValidationMessage } from './mongo.messages';
 import { MongoPort } from './mongo.constants';
@@ -29,7 +30,7 @@ export class MongoConfiguration {
     try {
       await validateOrReject(this);
     } catch (error) {
-      console.log(error);
+      Logger.log(error);
     }
   }
 }

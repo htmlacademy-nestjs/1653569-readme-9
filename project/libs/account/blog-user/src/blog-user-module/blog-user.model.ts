@@ -15,16 +15,19 @@ export class BlogUserModel extends Document implements AuthUser {
   public email!: string;
 
   @Prop({ required: false })
-  public avatarPath!: string;
+  public avatar!: string;
 
   @Prop({ required: true })
   public createdAt!: Date;
 
-  @Prop({ required: false })
+  @Prop({ required: false, default: 0 })
   public postCount!: number;
 
-  @Prop({ required: false })
-  public subscribers!: string[];
+  @Prop({ required: true, default: 0 })
+  subscriberCount!: number;
+
+  @Prop({ required: false, default: [] })
+  public subscriptions!: string[];
 
   @Prop({ required: true })
   public passwordHash!: string;

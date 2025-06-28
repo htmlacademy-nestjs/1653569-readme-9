@@ -29,11 +29,7 @@ const SERVE_ROOT = '/static';
     }),
     MongooseModule.forFeature([{ name: FileModel.name, schema: FileSchema }])
   ],
-  providers: [
-    FileUploaderService,
-    FileUploaderRepository,
-    FileUploaderFactory,
-  ],
-  controllers: [FileUploaderController],
+  providers: [FileUploaderService, FileUploaderRepository, FileUploaderFactory],
+  controllers: [FileUploaderController]
 })
 export class FileUploaderModule {}

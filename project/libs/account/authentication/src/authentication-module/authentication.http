@@ -1,29 +1,91 @@
-# Create new user
-POST http://localhost:3000/api/auth/register HTTP/1.1
+@PORT = 3001
+@HOST = http://localhost
+@BASE_URL = {{HOST}}:{{PORT}}/api/auth
+@ACCESS_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODVhOGJkNzBlM2Y0Y2I1YmEwMGIxZTAiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJuYW1lIjoiQWxleCIsImlhdCI6MTc1MTA2ODEyNiwiZXhwIjoxNzUxMDY5OTI2fQ.5_xx1q_j7ybi_ciVOJJaD_JgjuLm9jmcM2APXLmNwlQ
+@REFRESH_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODU1YzIxMmFiMjdlYTIxZDZjZGY5ZjgiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJuYW1lIjoiQWxleCIsInRva2VuSWQiOiJmZDkzNDY4Ni05M2U4LTQxNGItYjAyYi0wZTMzNDcyZWM5NGMiLCJpYXQiOjE3NTA0OTcwNjgsImV4cCI6MTc1MzA4OTA2OH0.MCGhkY8Efwr6mvUN-cJJI7DBBy4OTx192f1VTQVF-Ko
+
+###
+
+# Create new user:
+POST {{BASE_URL}}/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "user@notfound33.local",
+  "email": "user@notfound.local",
   "name": "Alex",
   "password": "123456",
-  "avatarPath": "https://i.pravatar.cc/300"
+  "avatar": "https://i.pravatar.cc/300"
 }
 
 ###
 
-# Get user by ID
-GET http://localhost:3000/api/auth/682376a4d507113c3947fab4 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODIzNzZhNGQ1MDcxMTNjMzk0N2ZhYjQiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJuYW1lIjoiQWxleCIsImlhdCI6MTc0ODM3OTMzMiwiZXhwIjoxNzQ4Mzc5NjMyfQ.bNmcGcoah7bDKf5ixGcnXVVm0eOoIDj1HGtduxi_br8
+# Get user by ID:
+GET {{BASE_URL}}/685a8c620e3f4cb5ba00b1e3 HTTP/1.1
+Authorization: Bearer {{ACCESS_TOKEN}}
 
 ###
 
-# Login user by email and password
-POST http://localhost:3000/api/auth/login HTTP/1.1
+# Login user by email and password:
+POST {{BASE_URL}}/login HTTP/1.1
 Content-Type: application/json
 
 {
   "email": "user@notfound.local",
   "password": "123456"
 }
+
+###
+
+# Change user password:
+PATCH {{BASE_URL}}/password HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+{
+  "currentPassword": "1234566",
+  "newPassword": "1234567"
+}
+
+###
+
+# Get new JWT pair:
+POST {{BASE_URL}}/refresh HTTP/1.1
+Authorization: Bearer {{REFRESH_TOKEN}}
+
+###
+
+# Check user token:
+POST {{BASE_URL}}/check HTTP/1.1
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+
+###
+
+# Subscribe to user updates:
+POST {{BASE_URL}}/subscribe HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+{
+  "userId": "685a8c620e3f4cb5ba00b1e3"
+}
+
+###
+
+# Unsubscribe to user updates:
+POST {{BASE_URL}}/unsubscribe HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+{
+  "userId": "685a8c620e3f4cb5ba00b1e3"
+}
+
+###
+
+# Get user subscriptions:
+GET {{BASE_URL}}/685a8bd70e3f4cb5ba00b1e0/subscriptions HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{ACCESS_TOKEN}}
 
 ###

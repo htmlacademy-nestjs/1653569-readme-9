@@ -1,5 +1,4 @@
 import { PrismaClientService } from '@project/models';
-import { Nullable } from '@project/helpers';
 import { Entity, StorableEntity, EntityFactory } from '@project/core';
 import { Repository } from './repository.interface';
 
@@ -21,7 +20,7 @@ DocumentType = ReturnType<T['toPOJO']>
     return this.entityFactory.create(document as ReturnType<T['toPOJO']>);
   }
 
-  public async findById(id: T['id']): Promise<Nullable<T>> {
+  public async findById(id: T['id']): Promise<T> {
     throw new Error('Not implemented');
   }
 

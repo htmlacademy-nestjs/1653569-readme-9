@@ -15,7 +15,7 @@ export class BlogTagEntity extends Entity implements StorableEntity<Tag> {
       return;
     }
 
-    this.id = tag.id;
+    this.id = tag.id ?? undefined;
     this.title = tag.title;
     this.createdAt = tag.createdAt;
     this.updatedAt = tag.updatedAt;

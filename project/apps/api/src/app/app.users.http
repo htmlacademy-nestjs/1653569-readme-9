@@ -1,0 +1,91 @@
+@PORT = 3000
+@HOST = http://localhost
+@BASE_URL = {{HOST}}:{{PORT}}/api/users
+@ACCESS_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODVhOGJkNzBlM2Y0Y2I1YmEwMGIxZTAiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJuYW1lIjoiQWxleCIsImlhdCI6MTc1MTA4MzcyMSwiZXhwIjoxNzUxMDg1NTIxfQ.h1Bphhc6IPOySefhp5jS8ehcnGuN2Pu9vTH4CAa-a5A
+@REFRESH_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODVhOGJkNzBlM2Y0Y2I1YmEwMGIxZTAiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJuYW1lIjoiQWxleCIsInRva2VuSWQiOiI3MmRhNjExZS1kZWI0LTQ3OWYtYTFiOS0yNzE2MWI2MTgxYTUiLCJpYXQiOjE3NTA4OTM5OTksImV4cCI6MTc1MzQ4NTk5OX0.dn63irIWcw4x1SQwSl8Wdccx6Vt2tsf2oZ4SZarReF0
+
+###
+
+# Create new user:
+POST {{BASE_URL}}/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "user@notfound.local",
+  "name": "Alex",
+  "password": "123456",
+  "avatar": "https://i.pravatar.cc/300"
+}
+
+###
+
+# Get user by ID:
+GET {{BASE_URL}}/685a8c620e3f4cb5ba00b1e3 HTTP/1.1
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+###
+
+# Login user by email and password:
+POST {{BASE_URL}}/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "user@notfound.local",
+  "password": "123456"
+}
+
+###
+
+# Change user password:
+PATCH {{BASE_URL}}/password HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+{
+  "currentPassword": "1234566",
+  "newPassword": "1234567"
+}
+
+###
+
+# Get new JWT pair:
+POST {{BASE_URL}}/refresh HTTP/1.1
+Authorization: Bearer {{REFRESH_TOKEN}}
+
+###
+
+# Check user token:
+POST {{BASE_URL}}/check HTTP/1.1
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+
+###
+
+# Subscribe to user updates:
+POST {{BASE_URL}}/subscribe HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+{
+  "userId": "685a8c620e3f4cb5ba00b1e3"
+}
+
+###
+
+# Unsubscribe to user updates:
+POST {{BASE_URL}}/unsubscribe HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+{
+  "userId": "685a8c620e3f4cb5ba00b1e3"
+}
+
+###
+
+# Get user subscriptions:
+GET {{BASE_URL}}/685a8bd70e3f4cb5ba00b1e0/subscriptions HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+###

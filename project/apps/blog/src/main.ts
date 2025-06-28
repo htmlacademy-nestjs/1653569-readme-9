@@ -12,15 +12,15 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   const config = new DocumentBuilder()
-  .setTitle('Readme blog')
-  .setDescription('The Post API service')
-  .setVersion('1.0')
-  .build();
+    .setTitle('The "Blog service"')
+    .setDescription('The Blog API service')
+    .setVersion('1.0')
+    .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
 
-  const port = process.env.PORT || 4000;
+  const port = process.env.PORT || 3002;
   await app.listen(port);
   Logger.log(`🚀 Application is running on: http://localhost:${port}/${GLOBAL_PREFIX}`);
 }

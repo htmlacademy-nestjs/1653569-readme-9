@@ -18,6 +18,12 @@ export class EmailSubscriberModel extends Document implements Subscriber {
 
   @Prop({ required: true })
   public name!: string;
+
+  @Prop({ required: false, default: [] })
+  public subscriptions?: string[]
+
+  @Prop({ required: false, default: new Date() })
+  public lastEmailDate!: Date
 }
 
 export const EmailSubscriberSchema = SchemaFactory.createForClass(EmailSubscriberModel);

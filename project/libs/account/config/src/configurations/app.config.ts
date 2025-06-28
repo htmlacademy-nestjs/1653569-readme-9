@@ -2,7 +2,7 @@ import Joi from 'joi';
 import { registerAs } from '@nestjs/config';
 import { DECIMAL_RADIX } from '@project/helpers';
 
-const DEFAULT_PORT = 3000;
+const DEFAULT_PORT = 3001;
 const ENVIRONMENTS = ['development', 'production', 'stage'] as const;
 
 type Environment = typeof ENVIRONMENTS[number];

@@ -1,30 +1,27 @@
-import { BlogTagEntity, BlogTagFactory } from '@project/blog-tag';
-import { BlogCommentEntity, BlogCommentFactory } from '@project/blog-comment';
-import { Post, StorableEntity, Entity, PostState, PostType } from '@project/core';
+import { Post, Entity, PostStatus, PostType, Tag, VideoPost, PhotoPost, LinkPost, QuotePost, TextPost } from '@project/core';
+import { StorableEntity } from '@project/core';
 
 export class BlogPostEntity extends Entity implements StorableEntity<Post> {
-  public title?: string;
-  public text?: string;
-  public announcement?: string;
-  public description?: string;
-  public quoteText?: string;
-  public quoteAuthor?: string;
-  public linkPath?: string;
   public userId!: string;
+  public createdAt?: Date;
+  public updatedAt?: Date;
+  public postedAt?: Date;
   public isReposted!: boolean;
   public repostedPostId?: string;
   public repostedUserId?: string;
-  public likeCount!: number;
   public commentCount!: number;
-  public comments!: BlogCommentEntity[];
-  public createdAt?: Date;
-  public updatedAt?: Date;
-  public state!: PostState;
+  public likeCount!: number;
+  public tags!: Tag[];
   public type!: PostType;
-  public tags!: BlogTagEntity[];
+  public status!: PostStatus;
+  public video?: VideoPost;
+  public photo?: PhotoPost;
+  public link?: LinkPost;
+  public quote?: QuotePost;
+  public text?: TextPost;
 
   constructor(post?: Post) {
-    super()
+    super();
     this.populate(post);
   }
 
@@ -34,61 +31,45 @@ export class BlogPostEntity extends Entity implements StorableEntity<Post> {
     }
 
     this.id = post.id ?? undefined;
-    this.title = post.title;
-    this.text = post.text;
-    this.announcement = post.announcement;
-    this.description = post.description;
-    this.quoteText = post.quoteText;
-    this.quoteAuthor = post.quoteAuthor;
-    this.linkPath = post.linkPath;
     this.userId = post.userId;
-    this.isReposted = post.isReposted ?? false;
-    this.repostedPostId = post.repostedPostId;
-    this.repostedUserId = post.repostedUserId;
-    this.likeCount = post.likeCount ?? 0;
-    this.commentCount = post.commentCount ?? 0;
-    this.comments = [];
-    this.createdAt = post.createdAt;
-    this.updatedAt = post.updatedAt;
-    this.state = post.state ?? PostState.Published;
+    this.createdAt = post.createdAt ?? new Date();
+    this.updatedAt = post.updatedAt ?? new Date();
+    this.postedAt = post.postedAt ?? new Date();
     this.type = post.type;
-    this.tags = [];
-
-    const blogCommentFactory = new BlogCommentFactory();
-    for (const comment of post.comments) {
-      const blogCommentEntity = blogCommentFactory.create(comment);
-      this.comments.push(blogCommentEntity);
-    }
-
-    const blogTagFactory = new BlogTagFactory();
-    for (const tag of post.tags) {
-      const blogTagEntity = blogTagFactory.create(tag);
-      this.tags.push(blogTagEntity);
-    }
+    this.status = post.status ?? PostStatus.Published;
+    this.isReposted = post.isReposted ?? false;
+    this.repostedUserId = post.repostedUserId ?? undefined;
+    this.repostedPostId = post.repostedPostId ?? undefined;
+    this.commentCount = post.commentCount ?? 0;
+    this.likeCount = post.likeCount ?? 0;
+    this.tags = post.tags ?? [];
+    this.video = post.video  ?? undefined;
+    this.photo = post.photo  ?? undefined;
+    this.link = post.link  ?? undefined;
+    this.quote = post.quote  ?? undefined;
+    this.text = post.text  ?? undefined;
   }
 
-  public toPOJO() {
+  public toPOJO(): Post {
     return {
       id: this.id,
-      title: this.title,
-      text: this.text,
-      announcement: this.announcement,
-      description: this.description,
-      quoteText: this.quoteText,
-      quoteAuthor: this.quoteAuthor,
-      linkPath: this.linkPath,
       userId: this.userId,
-      isReposted: this.isReposted,
-      repostedPostId: this.repostedPostId,
-      repostedUserId: this.repostedUserId,
-      likeCount: this.likeCount,
-      commentCount: this.commentCount,
-      comments: this.comments.map((commentEntity) => commentEntity.toPOJO()),
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
-      state: this.state,
+      postedAt: this.postedAt,
       type: this.type,
-      tags: this.tags.map((tagEntity) => tagEntity.toPOJO()),
+      status: this.status,
+      isReposted: this.isReposted,
+      repostedUserId: this.repostedUserId,
+      repostedPostId: this.repostedPostId,
+      commentCount: this.commentCount,
+      likeCount: this.likeCount,
+      tags: this.tags,
+      video: this.video,
+      photo: this.photo,
+      link: this.link,
+      quote: this.quote,
+      text: this.text
     };
   }
 }

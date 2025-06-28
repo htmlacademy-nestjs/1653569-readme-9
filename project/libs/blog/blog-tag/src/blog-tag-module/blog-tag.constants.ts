@@ -42,7 +42,7 @@ export const BlogTagApiResponse = {
   },
 } as const;
 
-export const BlogTagValidateLength = {
+export const BlogTagLimit = {
   Title: {
     Min: 3,
     Max: 10,

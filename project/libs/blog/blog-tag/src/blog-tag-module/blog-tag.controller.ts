@@ -8,7 +8,7 @@ import { TagRDO } from '../rdo/tag.rdo';
 import { BlogTagApiOperation, BlogTagApiParam, BlogTagApiResponse } from './blog-tag.constants';
 import { BlogTagApiProperty } from './blog-tag.property';
 
-@ApiTags('Tags')
+@ApiTags('Blog Tags')
 @Controller('tags')
 export class BlogTagController {
   constructor(

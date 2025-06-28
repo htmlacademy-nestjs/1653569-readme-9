@@ -1,93 +1,17 @@
+import { ArrayMaxSize, ArrayUnique, IsArray, IsEnum, IsMongoId, IsOptional, Length, ValidateNested } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  ArrayMaxSize,
-  ArrayMinSize,
-  IsArray,
-  IsBoolean,
-  IsEnum,
-  IsMongoId,
-  IsNumber,
-  IsOptional,
-  IsString,
-  IsUrl,
-  IsUUID,
-  Length
-} from 'class-validator';
+import { Type } from 'class-transformer';
 
-import { Comment, PostState, PostType } from '@project/core';
+import { PostStatus } from '@project/core';
 import { BlogPostApiProperty } from '../blog-post-module/blog-post.property';
-import { BlogPostValidateLength } from '../blog-post-module/blog-post.constants';
+import { BlogPostLimit } from '../blog-post-module/blog-post.constants';
+import { UpdateTextPostDTO } from './update-text-post.dto';
+import { UpdateVideoPostDTO } from './update-video-post.dto';
+import { UpdatePhotoPostDTO } from './update-photo-post.dto';
+import { UpdateLinkPostDTO } from './update-link-post.dto';
+import { UpdateQuotePostDTO } from './update-quote-post.dto';
 
 export class UpdatePostDTO {
-  @IsOptional()
-  @IsString()
-  @Length(BlogPostValidateLength.Title.Min, BlogPostValidateLength.Title.Max)
-  @ApiProperty(BlogPostApiProperty.Title)
-  public title?: string;
-
-  @IsOptional()
-  @IsString()
-  @Length(BlogPostValidateLength.Text.Min, BlogPostValidateLength.Text.Max)
-  @ApiProperty(BlogPostApiProperty.Text)
-  public text?: string;
-
-  @IsOptional()
-  @IsString()
-  @Length(BlogPostValidateLength.Announcement.Min, BlogPostValidateLength.Announcement.Max)
-  @ApiProperty(BlogPostApiProperty.Announcement)
-  public announcement?: string;
-
-  @IsOptional()
-  @IsString()
-  @Length(BlogPostValidateLength.Description.Min, BlogPostValidateLength.Description.Max)
-  @ApiProperty(BlogPostApiProperty.Description)
-  public description?: string;
-
-  @IsOptional()
-  @IsString()
-  @Length(BlogPostValidateLength.Quote.Min, BlogPostValidateLength.Quote.Max)
-  @ApiProperty(BlogPostApiProperty.Quote)
-  public quoteText?: string;
-
-  @IsOptional()
-  @IsString()
-  @Length(BlogPostValidateLength.Author.Min, BlogPostValidateLength.Author.Max)
-  @ApiProperty(BlogPostApiProperty.Author)
-  public quoteAuthor?: string;
-
-  @IsOptional()
-  @IsUrl()
-  @ApiProperty(BlogPostApiProperty.LinkPath)
-  public linkPath?: string;
-
-  @IsOptional()
-  @IsUUID()
-  @ApiProperty(BlogPostApiProperty.RepostPostId)
-  public repostedPostId?: string;
-
-  @IsOptional()
-  @IsUUID()
-  @ApiProperty(BlogPostApiProperty.RepostUserId)
-  public repostedUserId?: string;
-
-  @IsOptional()
-  @IsBoolean()
-  @ApiProperty(BlogPostApiProperty.IsReposted)
-  public isReposted!: boolean;
-
-  @IsOptional()
-  @IsNumber()
-  @ApiProperty(BlogPostApiProperty.CommentCount)
-  public commentCount!: number;
-
-  @IsOptional()
-  @IsNumber()
-  @ApiProperty(BlogPostApiProperty.LikeCount)
-  public likeCount!: number;
-
-  @IsOptional()
-  @IsArray()
-  public comments?: Comment[];
 
   @IsOptional()
   @IsMongoId()
@@ -95,20 +19,40 @@ export class UpdatePostDTO {
   public userId!: string;
 
   @IsOptional()
-  @IsEnum(PostState)
-  @ApiProperty(BlogPostApiProperty.State)
-  public state!: PostState;
+  @IsEnum(PostStatus)
+  @ApiProperty(BlogPostApiProperty.Status)
+  public status!: PostStatus;
 
   @IsOptional()
   @IsArray()
-  @IsUUID('all', { each: true })
-  @ArrayMinSize(BlogPostValidateLength.Tags.Min)
-  @ArrayMaxSize(BlogPostValidateLength.Tags.Max)
+  @ArrayUnique()
+  @ArrayMaxSize(BlogPostLimit.Tags.Max)
+  @Length(BlogPostLimit.Tag.Min, BlogPostLimit.Tag.Max, { each: true })
   @ApiProperty(BlogPostApiProperty.Tags)
   public tags?: string[];
 
+  @ValidateNested()
   @IsOptional()
-  @IsEnum(PostType)
-  @ApiProperty(BlogPostApiProperty.Type)
-  public type!: PostType;
+  @Type(() => UpdateTextPostDTO)
+  public text?: UpdateTextPostDTO;
+
+  @ValidateNested()
+  @IsOptional()
+  @Type(() => UpdateVideoPostDTO)
+  public video?: UpdateVideoPostDTO;
+
+  @ValidateNested()
+  @IsOptional()
+  @Type(() => UpdatePhotoPostDTO)
+  public photo?: UpdatePhotoPostDTO;
+
+  @ValidateNested()
+  @IsOptional()
+  @Type(() => UpdateLinkPostDTO)
+  public link?: UpdateLinkPostDTO;
+
+  @ValidateNested()
+  @IsOptional()
+  @Type(() => UpdateQuotePostDTO)
+  public quote?: UpdateQuotePostDTO;
 }

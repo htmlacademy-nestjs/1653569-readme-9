@@ -24,7 +24,12 @@ export abstract class BaseMongoRepository<
       return null;
     }
 
-    const plainObject = document.toObject({ versionKey: false }) as ReturnType<T['toPOJO']> & WithId;
+    const plainObject = document.toObject({
+      getters: true,
+      flattenObjectIds: true,
+      versionKey: false
+    }) as ReturnType<T['toPOJO']> & WithId;
+
     plainObject.id = (document._id as string).toString();
     return this.entityFactory.create(plainObject);
   }
@@ -44,7 +49,14 @@ export abstract class BaseMongoRepository<
     entity.id = (newEntity._id as string).toString();
   }
 
-  public async update(entity: T): Promise<void> {
+  public async deleteById(id: T['id']): Promise<void> {
+    const deletedDocument = await this.model.findByIdAndDelete(id).exec();
+    if (!deletedDocument) {
+      throw new NotFoundException(`Entity with id ${id} not found.`);
+    }
+  }
+
+  public async update(entity: T): Promise<T> {
     const updatedDocument = await this.model.findByIdAndUpdate(
       entity.id,
       entity.toPOJO() as UpdateQuery<DocumentType>,
@@ -54,12 +66,12 @@ export abstract class BaseMongoRepository<
     if (!updatedDocument) {
       throw new NotFoundException(`Entity with id ${entity.id} not found`);
     }
-  }
 
-  public async deleteById(id: T['id']): Promise<void> {
-    const deletedDocument = await this.model.findByIdAndDelete(id).exec();
-    if (!deletedDocument) {
-      throw new NotFoundException(`Entity with id ${id} not found.`);
+    const updatedEntity = this.createEntityFromDocument(updatedDocument);
+    if (!updatedEntity) {
+      throw new NotFoundException(`Entity with id ${entity.id} could not be created from document`);
     }
+
+    return updatedEntity;
   }
 }
