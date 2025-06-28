@@ -1,7 +1,7 @@
 import { StorableEntity, Entity, Comment } from '@project/core';
 
 export class BlogCommentEntity extends Entity implements StorableEntity<Comment>  {
-    public message!: string;
+    public text!: string;
     public userId!: string;
     public postId!: string;
     public createdAt!: Date;
@@ -18,7 +18,7 @@ export class BlogCommentEntity extends Entity implements StorableEntity<Comment>
       }
 
       this.id = comment.id ?? undefined;
-      this.message = comment.message;
+      this.text = comment.text;
       this.userId = comment.userId;
       this.postId = comment.postId ?? undefined;
       this.createdAt = comment.createdAt;
@@ -28,7 +28,7 @@ export class BlogCommentEntity extends Entity implements StorableEntity<Comment>
     public toPOJO() {
       return {
         id: this.id,
-        message: this.message,
+        text: this.text,
         userId: this.userId,
         postId: this.postId,
         createdAt: this.createdAt,

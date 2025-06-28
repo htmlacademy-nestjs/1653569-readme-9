@@ -16,7 +16,7 @@ services:
       - readme.mongo.storage:/data/db
 
   readme.storage.mongo.ui:
-    image: mongo-express:1.0-20
+    image: mongo-express:1.0.2-20
     restart: always
     container_name: readme.storage.mongo.ui
 

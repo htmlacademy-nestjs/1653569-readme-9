@@ -2,8 +2,9 @@ export interface User {
   id?: string,
   name: string,
   email: string,
-  avatarPath: string,
+  avatar?: string,
   createdAt: Date;
   postCount: number;
-  subscribers: string[];
+  subscriberCount: number;
+  subscriptions: string[];
 }

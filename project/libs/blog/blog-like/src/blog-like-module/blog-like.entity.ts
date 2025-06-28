@@ -1,29 +1,27 @@
 import { StorableEntity, Entity, Like } from '@project/core';
 
-export class BlogLikeEntity extends Entity implements StorableEntity<Like>  {
-    public postId!: string;
-    public userId!: string;
+export class BlogLikeEntity extends Entity implements StorableEntity<Like> {
+  public postId!: string;
+  public userId!: string;
 
-    constructor(data: Like) {
-      super()
-      this.populate(data);
-    }
-
-    public populate(data: Like) {
-      if (!data) {
-        return;
-      }
-
-      this.id = data.id ?? undefined
-      this.postId = data.postId;
-      this.userId = data.userId;
-    }
-
-    public toPOJO() {
-      return {
-        id: this.id,
-        postId: this.postId,
-        userId: this.userId,
-      };
-    }
+  constructor(like: Like) {
+    super()
+    this.populate(like);
   }
+
+  public populate(like: Like) {
+    if (!like) {
+      return;
+    }
+
+    this.postId = like.postId;
+    this.userId = like.userId;
+  }
+
+  public toPOJO() {
+    return {
+      postId: this.postId,
+      userId: this.userId,
+    };
+  }
+}

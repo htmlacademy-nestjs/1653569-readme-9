@@ -1,0 +1,104 @@
+@PORT = 3000
+@HOST = http://localhost
+@BASE_URL = {{HOST}}:{{PORT}}/api/posts
+@ACCESS_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODVhOGJkNzBlM2Y0Y2I1YmEwMGIxZTAiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJuYW1lIjoiQWxleCIsImlhdCI6MTc1MTA4MzcyMSwiZXhwIjoxNzUxMDg1NTIxfQ.h1Bphhc6IPOySefhp5jS8ehcnGuN2Pu9vTH4CAa-a5A
+
+###
+
+# Create new post:
+POST {{BASE_URL}} HTTP/1.1
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+{
+  "text": {
+    "title": "Some title of new tech post 100",
+    "announcement": "Some announcement of new tech post. Today you can find the best tech news and reviews.",
+    "text": "Some text of new tech post. This be the best tech post you can find on the internet. We talks about the best tech news and reviews."
+  },
+  "type": "text",
+  "tags": ["news"]
+}
+
+###
+
+# Get all posts:
+GET {{BASE_URL}} HTTP/1.1
+Content-Type: application/json
+
+###
+
+# Get posts with filter #1:
+GET {{BASE_URL}}?limit=5&tags[]=store&page=1 HTTP/1.1
+Content-Type: application/json
+
+###
+
+# Get posts with filter #2:
+GET {{BASE_URL}}?limit=5&sortDirection=asc&sortBy=comments&search=title&page=1 HTTP/1.1
+Content-Type: application/json
+
+###
+
+# Get draft posts:
+GET {{BASE_URL}}/drafts HTTP/1.1
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+###
+
+# Get post:
+GET {{BASE_URL}}/4049d6d8-9313-49de-a4ef-c908e413ded6 HTTP/1.1
+
+
+###
+
+# Delete post:
+DELETE {{BASE_URL}}/4049d6d8-9313-49de-a4ef-c908e413ded6 HTTP/1.1
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+###
+
+# Update post (postType: 'text'):
+PATCH {{BASE_URL}}/54ee430a-3ad4-4ad4-9c36-218c0cf96c88 HTTP/1.1
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+{
+  "text": {
+    "title": "New amazing title for populated tech post"
+  },
+  "tags": ["magazine"],
+  "status": "draft"
+}
+
+###
+
+# Add like:
+POST {{BASE_URL}}/2cb779e1-f93e-48ef-b10e-f331a71cb920/like HTTP/1.1
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+###
+
+# Remove like:
+POST {{BASE_URL}}/2cb779e1-f93e-48ef-b10e-f331a71cb920/unlike HTTP/1.1
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+###
+
+# Create repost:
+POST {{BASE_URL}}/40a5dd89-62aa-42c4-821f-eaa1aced4ecd/repost HTTP/1.1
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+###
+
+# Send notify to email about new post:
+POST {{BASE_URL}}/sendEmail HTTP/1.1
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+###
+
+# Get feed:
+POST {{BASE_URL}}/feed HTTP/1.1
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+###

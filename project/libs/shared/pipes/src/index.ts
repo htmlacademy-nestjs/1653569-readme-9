@@ -1,1 +1,1 @@
-export * from './lib/mongo-id-validation.pipe.js';
+export { MongoIdValidationPipe } from './lib/mongo-id-validation.pipe';

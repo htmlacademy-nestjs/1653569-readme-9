@@ -1,6 +1,7 @@
 import { HttpStatus } from "@nestjs/common";
 import { BlogCommentApiProperty } from "./blog-comment.property";
-import { CommentRDO } from "../rdo/comment.rdo";
+import { BlogCommentRDO } from "../rdo/blog-comment.rdo";
+import { SortDirection } from "@project/core";
 
 export const BlogCommentMessage = {
   OneNotFound: 'Comment with this ID not found',
@@ -30,12 +31,12 @@ export const BlogCommentApiResponse = {
   Created: {
     status: HttpStatus.CREATED,
     description: 'New comment was created',
-    type: CommentRDO,
+    type: BlogCommentRDO,
   },
   Found: {
     status: HttpStatus.OK,
     description: 'Comment was found',
-    type: CommentRDO,
+    type: BlogCommentRDO,
   },
   NotFoundById: {
     status: HttpStatus.NOT_FOUND,
@@ -51,7 +52,7 @@ export const BlogCommentApiResponse = {
   }
 } as const;
 
-export const BlogCommentValidateLength = {
+export const BlogCommentLimit = {
   Text: {
     Min: 10,
     Max: 300,
@@ -59,4 +60,10 @@ export const BlogCommentValidateLength = {
   Comment: {
     Max: 10,
   }
+} as const;
+
+export const BlogCommentQueryDefaults = {
+  Limit: 50,
+  Page: 1,
+  SortDirection: SortDirection.Desc,
 } as const;

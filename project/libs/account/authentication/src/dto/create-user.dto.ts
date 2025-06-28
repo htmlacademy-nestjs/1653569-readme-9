@@ -1,25 +1,25 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsString, IsUrl, Length } from "class-validator";
+import { IsEmail, IsOptional, IsString, Length } from "class-validator";
 
 import { AuthUserApiProperty } from "../authentication-module/authentication.property";
 import { AuthUserMessage, AuthUserValidateLength } from "../authentication-module/authentication.constants";
 
 export class CreateUserDTO {
+  @ApiProperty(AuthUserApiProperty.Name)
   @IsString()
   @Length(AuthUserValidateLength.Name.Min, AuthUserValidateLength.Name.Max)
-  @ApiProperty(AuthUserApiProperty.Name)
   public name!: string;
 
-  @IsEmail({}, {message: AuthUserMessage.EmailNotValid})
   @ApiProperty(AuthUserApiProperty.Email)
+  @IsEmail({}, {message: AuthUserMessage.EmailNotValid})
   public email!: string;
 
+  @ApiProperty(AuthUserApiProperty.Password)
   @IsString()
   @Length(AuthUserValidateLength.Password.Min, AuthUserValidateLength.Password.Max)
-  @ApiProperty(AuthUserApiProperty.Password)
   public password!: string;
 
-  @IsUrl()
   @ApiProperty(AuthUserApiProperty.AvatarPath)
-  public avatarPath!: string;
+  @IsOptional()
+  public avatar!: string;
 }

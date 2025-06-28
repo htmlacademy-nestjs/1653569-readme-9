@@ -19,7 +19,6 @@ export class BlogTagService {
 
     const newTag = new BlogTagEntity(tranformedDTO);
     await this.blogTagRepository.save(newTag);
-
     return newTag;
   }
 
@@ -33,7 +32,6 @@ export class BlogTagService {
 
   public async getTagsByIds(tagIds: string[]): Promise<BlogTagEntity[]> {
     const tags = await this.blogTagRepository.findByIds(tagIds);
-
     if (tags.length !== tagIds.length) {
       const foundTagsIds = tags.map((tag) => tag.id);
       const notFoundTagIds = tagIds.filter((tagId) => !foundTagsIds.includes(tagId));
@@ -50,22 +48,34 @@ export class BlogTagService {
     return await this.blogTagRepository.findByTitle(title.toLocaleLowerCase());
   }
 
+  public async findOrCreate(dtos: string[]): Promise<BlogTagEntity[]> {
+    const titles = dtos.map((title) => title);
+    const tags = await this.blogTagRepository.findByTitles(titles);
+    if (tags.length !== titles.length) {
+      const foundTags = tags.map((tag) => tag.title);
+      const notFoundTags = titles.filter((title) => !foundTags.includes(title));
+
+      if (notFoundTags.length) {
+        const newTitles = notFoundTags.map((title) => ({title}));
+        const documents = await this.blogTagRepository.createMany(newTitles);
+        return [...tags, ...documents];
+      }
+    }
+
+    return tags;
+  }
+
   public async getTagsByTitles(titles: string[]): Promise<BlogTagEntity[]> {
-    if (!titles.length) {
-      return [];
+    const tags = await this.blogTagRepository.findByTitles(titles);
+    if (tags.length !== titles.length) {
+      const foundTags = tags.map((tag) => tag.id);
+      const notFoundTags = titles.filter((id) => !foundTags.includes(id));
+
+      if (notFoundTags.length) {
+        throw new NotFoundException(`Tags with ids ${notFoundTags} not found.`);
+      }
     }
 
-    const loweredTitles = titles.map((item) => item.toLocaleLowerCase());
-    const uniqueTitles = Array.from(new Set(loweredTitles));
-    const foundTagTitles = await this.blogTagRepository.findByTitles(loweredTitles);
-
-    if (uniqueTitles.length !== foundTagTitles.length) {
-      const existsTagsTitles = foundTagTitles.map((tag) => tag.title);
-      foundTagTitles
-        .filter((tag) => !existsTagsTitles.includes(tag.title))
-        .forEach(async (title) => await this.createTag(title))
-    }
-
-    return foundTagTitles;
+    return tags;
   }
 }

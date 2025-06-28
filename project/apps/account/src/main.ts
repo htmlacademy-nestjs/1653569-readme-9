@@ -13,10 +13,10 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   const config = new DocumentBuilder()
-  .setTitle('Readme blog')
-  .setDescription('The Account API service')
-  .setVersion('1.0')
-  .build();
+    .setTitle('The "Account service"')
+    .setDescription('The Account API service')
+    .setVersion('1.0')
+    .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);

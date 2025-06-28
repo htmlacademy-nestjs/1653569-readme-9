@@ -5,12 +5,12 @@ import { AuthUserApiProperty } from "../authentication-module/authentication.pro
 import { AuthUserMessage, AuthUserValidateLength } from "../authentication-module/authentication.constants";
 
 export class LoginUserDTO {
-  @IsEmail({}, {message: AuthUserMessage.EmailNotValid})
   @ApiProperty(AuthUserApiProperty.Email)
+  @IsEmail({}, {message: AuthUserMessage.EmailNotValid})
   public email!: string;
 
   @IsString()
-  @Length(AuthUserValidateLength.Password.Min, AuthUserValidateLength.Password.Max)
   @ApiProperty(AuthUserApiProperty.Password)
+  @Length(AuthUserValidateLength.Password.Min, AuthUserValidateLength.Password.Max)
   public password!: string;
 }

@@ -1,49 +1,65 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 
-import { PaginationResult } from "@project/core";
-import { BlogTagService } from "@project/blog-tag";
-import {
-  BlogCommentEntity,
-  BlogCommentFactory,
-  BlogCommentRepository,
-  CreateCommentDTO
-} from "@project/blog-comment";
-
-import { BlogPostEntity } from "./blog-post.entity";
-import { BlogPostRepository } from "./blog-post.repository";
-import { BlogPostMessage } from "./blog-post.constants";
-import { CreatePostDTO } from "../dto/create-post.dto";
-import { UpdatePostDTO } from "../dto/update-post.dto";
-import { BlogPostQuery } from "./blog-post.query";
-import { BlogPostFactory } from "./blog-post.factory";
+import { PaginationResult } from '@project/core';
+import { BlogTagEntity, BlogTagService } from '@project/blog-tag';
+import { BlogPostQuery } from './blog-post.query';
+import { BlogPostEntity } from './blog-post.entity';
+import { BlogPostFactory } from './blog-post.factory';
+import { BlogPostRepository } from './blog-post.repository';
+import { CreatePostDTO } from '../dto/create-post.dto';
+import { UpdatePostDTO } from '../dto/update-post.dto';
 
 @Injectable()
 export class BlogPostService {
   constructor(
     private readonly blogPostRepository: BlogPostRepository,
     private readonly blogTagService: BlogTagService,
-    private readonly blogCommentRepository: BlogCommentRepository,
-    private readonly blogCommentFactory: BlogCommentFactory,
   ) {}
 
   private isValidKey(key: string, obj: BlogPostEntity): key is keyof BlogPostEntity {
     return key in obj;
   }
 
-  public async getAllPosts(query?: BlogPostQuery): Promise<PaginationResult<BlogPostEntity>> {
-    return this.blogPostRepository.find(query);
+  public async getPosts(query?: BlogPostQuery, userIds?: string[]): Promise<PaginationResult<BlogPostEntity>> {
+    return this.blogPostRepository.find(query, userIds);
+  }
+
+  public async getPost(id: string): Promise<BlogPostEntity> {
+    return this.blogPostRepository.findById(id);
   }
 
   public async createPost(dto: CreatePostDTO): Promise<BlogPostEntity> {
-    const tags = await this.blogTagService.getTagsByIds(dto.tags as string[]);
-    const newPost = BlogPostFactory.createFromCreatePostDTO(dto, tags);
-    await this.blogPostRepository.save(newPost);
+    let tags: BlogTagEntity[] = [];
+    if (dto.tags && dto.tags.length) {
+      tags = await this.blogTagService.findOrCreate(dto.tags);
+    }
 
+    const newPost = BlogPostFactory.createPost(dto, tags);
+    await this.blogPostRepository.save(newPost);
+    return newPost;
+  }
+
+  public async createRepost(postId: string, userId: string): Promise<BlogPostEntity> {
+    const existsPost = await this.blogPostRepository.findById(postId);
+    if (!existsPost) {
+      throw new NotFoundException(`Post with id ${postId} not found`);
+    }
+
+    const existRepost = await this.blogPostRepository.findRepost(postId, userId);
+    if (existRepost) {
+      throw new ConflictException(`You had already made this repost`);
+    }
+
+    const newPost = BlogPostFactory.createRepost(existsPost.toPOJO(), userId);
+    await this.blogPostRepository.save(newPost);
     return newPost;
   }
 
   public async updatePost(id: string, dto: UpdatePostDTO): Promise<BlogPostEntity> {
     const existsPost = await this.blogPostRepository.findById(id);
+    if (dto.userId !== existsPost.userId) {
+      throw new ConflictException(`You are not allowed to update this post`);
+    }
     let isSameTags = true;
     let hasChanges = false;
 
@@ -54,51 +70,35 @@ export class BlogPostService {
       }
 
       if (key === 'tags' && value) {
-        const currentTagIds = existsPost.tags.map((tag) => tag.id);
-        isSameTags = currentTagIds.length === value.length &&
-          currentTagIds.some((tagId) => value.includes(tagId));
-
-        if (!isSameTags) {
-          existsPost.tags = await this.blogTagService.getTagsByIds(dto.tags as string[]);
-        }
+        const currentTagsTitles = existsPost.tags.map((tag) => tag.title);
+        isSameTags = currentTagsTitles
+          .length === value.length && currentTagsTitles
+          .every((title) => value.includes(title));
       }
     }
 
-    if (isSameTags && !hasChanges) {
-      return existsPost;
+    if (isSameTags && ! hasChanges) {
+      return existsPost
+    }
+
+    if (!isSameTags) {
+      existsPost.tags = await this.blogTagService
+        .findOrCreate([...(dto.tags || []), ...existsPost.tags.map((tag) => tag.title)]);
     }
 
     await this.blogPostRepository.update(existsPost);
     return existsPost;
   }
 
-  public async deletePost(id: string): Promise<void> {
-    await this.blogPostRepository.deleteById(id);
-  }
-
-  public async getPostById(id: string): Promise<BlogPostEntity> {
-    const post = await this.blogPostRepository.findById(id);
-    if (!post) {
-      throw new NotFoundException(BlogPostMessage.NotFoundById);
+  public async deletePost(postId: string, userId: string): Promise<void> {
+    const existsPost = await this.blogPostRepository.findById(postId);
+    if (userId !== existsPost.userId) {
+      throw new ConflictException(`You are not allowed to delete this post`);
     }
-
-    return post;
-  }
-
-  public async getPostByTitle(title: string): Promise<BlogPostEntity> {
-    const post = await this.blogPostRepository.findPostByTitle(title);
-    if (!post) {
-      throw new NotFoundException(BlogPostMessage.NotFoundByTitle);
+    try {
+      await this.blogPostRepository.deleteById(postId);
+    } catch {
+      throw new NotFoundException(`Post with id ${postId} not found`);
     }
-
-    return post;
-  }
-
-  public async addComment(postId: string, dto: CreateCommentDTO): Promise<BlogCommentEntity> {
-    const existsPost = await this.getPostById(postId);
-    const newComment = this.blogCommentFactory.createFromDTO(dto, existsPost.id as string);
-    await this.blogCommentRepository.save(newComment);
-
-    return newComment;
   }
 }

@@ -20,16 +20,35 @@ export const FileUploaderFileApiBody = {
   }
 };
 
+export const FileUploaderApiOperation = {
+  Upload: { summary: "Upload file" },
+  Get: { summary: "Get file" },
+} as const;
+
+export const FileSizeLimit = {
+  Avatar: 1 * 500 * 1024,
+  Image: 1 * 1024 * 1024,
+} as const;
+
+export const FileUploaderMessage = {
+  Avatar: {
+    LargeSize: 'File is too large. Maximum size is 500KB.',
+  },
+  Image: {
+    LargeSize: 'File is too large. Maximum size is 1MB.',
+  }
+} as const
+
 export const FileUploaderApiResponse = {
   FileUploaded: {
-    type: UploadedFileRDO,
     status: HttpStatus.CREATED,
-    description: 'The new file was successfully upload'
+    description: 'The new file was successfully upload',
+    type: UploadedFileRDO,
   },
   FileFound: {
-    type: UploadedFileRDO,
     status: HttpStatus.OK,
-    description: 'File successfully found'
+    description: 'File successfully found',
+    type: UploadedFileRDO,
   },
   FileNotFound: {
     status: HttpStatus.NOT_FOUND,

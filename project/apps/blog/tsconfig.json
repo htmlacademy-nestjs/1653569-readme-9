@@ -16,6 +16,9 @@
       "path": "../../libs/blog/blog-post"
     },
     {
+      "path": "../../libs/blog/config"
+    },
+    {
       "path": "./tsconfig.app.json"
     }
   ]

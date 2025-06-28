@@ -1,15 +1,16 @@
 import { compare, genSalt, hash } from 'bcrypt';
 
 import { Entity, StorableEntity, AuthUser } from '@project/core';
-import { SALT_ROUNDS } from './blog-user.constant';
+import { SALT_ROUNDS, DEFAULT_AVATAR } from './blog-user.constants';
 
 export class BlogUserEntity extends Entity implements StorableEntity<AuthUser> {
   public name!: string;
   public email!: string;
-  public avatarPath!: string;
+  public avatar!: string;
   public createdAt!: Date;
   public postCount!: number;
-  public subscribers!: string[];
+  public subscriberCount!: number;
+  public subscriptions!: string[];
   public passwordHash!: string;
 
   constructor(user?: AuthUser) {
@@ -25,10 +26,11 @@ export class BlogUserEntity extends Entity implements StorableEntity<AuthUser> {
     this.id = user.id ?? undefined;
     this.name = user.name;
     this.email = user.email;
-    this.avatarPath = user.avatarPath ?? '';
+    this.avatar = user.avatar ?? DEFAULT_AVATAR;
     this.createdAt = user.createdAt ?? new Date();
     this.postCount = user.postCount ?? 0;
-    this.subscribers = user.subscribers ?? [];
+    this.subscriberCount = user.subscriberCount ?? 0;
+    this.subscriptions = user.subscriptions ?? [];
     this.passwordHash = user.passwordHash;
   }
 
@@ -37,10 +39,11 @@ export class BlogUserEntity extends Entity implements StorableEntity<AuthUser> {
       id: this.id,
       name: this.name,
       email: this.email,
-      avatarPath: this.avatarPath,
+      avatar: this.avatar,
       createdAt: this.createdAt,
       postCount: this.postCount,
-      subscribers: this.subscribers,
+      subscriberCount: this.subscriberCount,
+      subscriptions: this.subscriptions,
       passwordHash: this.passwordHash,
     }
   }
@@ -53,5 +56,16 @@ export class BlogUserEntity extends Entity implements StorableEntity<AuthUser> {
 
   public async comparePassword(password: string): Promise<boolean> {
     return compare(password, this.passwordHash);
+  }
+
+  public async updateSubscription(userId: string) {
+    const index = this.subscriptions.indexOf(userId);
+    if (index !== -1) {
+      this.subscriptions.splice(index, 1);
+      this.subscriberCount--;
+    } else {
+      this.subscriptions.push(userId);
+      this.subscriberCount++;
+    }
   }
 }

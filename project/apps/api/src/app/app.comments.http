@@ -1,0 +1,28 @@
+@PORT = 3000
+@HOST = http://localhost
+@BASE_URL = {{HOST}}:{{PORT}}/api/comments
+@ACCESS_TOKEN = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODVhOGJkNzBlM2Y0Y2I1YmEwMGIxZTAiLCJlbWFpbCI6InVzZXJAbm90Zm91bmQubG9jYWwiLCJuYW1lIjoiQWxleCIsImlhdCI6MTc1MTA4MzcyMSwiZXhwIjoxNzUxMDg1NTIxfQ.h1Bphhc6IPOySefhp5jS8ehcnGuN2Pu9vTH4CAa-a5A
+
+###
+
+# Get comments:
+GET {{BASE_URL}}/4049d6d8-9313-49de-a4ef-c908e413ded6?limit=3&page=1 HTTP/1.1
+
+###
+
+# Create comment:
+POST {{BASE_URL}}/4049d6d8-9313-49de-a4ef-c908e413ded6 HTTP/1.1
+Authorization: Bearer {{ACCESS_TOKEN}}
+Content-Type: application/json
+
+{
+  "text": "Some new comment text"
+}
+
+###
+
+# Delete comment:
+DELETE {{BASE_URL}}/59919b2e-ba40-4ae6-89a3-271765050766 HTTP/1.1
+Authorization: Bearer {{ACCESS_TOKEN}}
+
+###

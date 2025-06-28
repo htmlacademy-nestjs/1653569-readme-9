@@ -17,12 +17,19 @@ import { Nullable } from '@project/helpers';
     super(entityFactory, blogUserModel);
   }
 
-    public async findByEmail(email: string): Promise<Nullable<BlogUserEntity>> {
+  public async findByEmail(email: string): Promise<Nullable<BlogUserEntity>> {
     const document = await this.model.findOne({ email }).exec();
     if (!document) {
       return null;
     }
 
     return this.createEntityFromDocument(document);
+  }
+
+  public async findSubscriptions(userId: string): Promise<BlogUserEntity[]> {
+    const documents = await this.model.find({ subscriptions: userId }).exec();
+    return documents
+      .map((document) => this.createEntityFromDocument(document))
+      .filter((entity): entity is BlogUserEntity => entity !== null);
   }
 }

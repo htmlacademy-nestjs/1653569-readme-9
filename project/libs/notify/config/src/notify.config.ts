@@ -2,7 +2,7 @@ import Joi from 'joi';
 import { registerAs } from '@nestjs/config';
 import { DECIMAL_RADIX } from '@project/helpers';
 
-const DEFAULT_PORT = 3002;
+const DEFAULT_PORT = 3003;
 const DEFAULT_MONGO_PORT = 27017;
 const DEFAULT_RABBIT_PORT = 5672;
 const DEFAULT_SMTP_PORT = 25;

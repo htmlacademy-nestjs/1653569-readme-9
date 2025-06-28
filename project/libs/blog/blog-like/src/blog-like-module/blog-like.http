@@ -1,19 +1,19 @@
-# Create like to post:
-POST http://localhost:4000/api/likes HTTP/1.1
+# Create like to post: (disabled in module)
+POST http://localhost:3002/api/likes HTTP/1.1
 Content-Type: application/json
 
 {
-  "postId": "6d308040-96a2-4162-bea6-2338e9976540",
-  "userId": "682376a4d507113c3947fab4"
+  "postId": "e3bf7830-78a4-4ba7-bfaa-2977f116051b",
+  "userId": "658170cbb954e9f5b905ccf4"
 }
 ###
 
-# Delete like from post:
-DELETE http://localhost:4000/api/likes HTTP/1.1
+# Delete like from post: (disabled in module)
+DELETE http://localhost:3002/api/likes HTTP/1.1
 Content-Type: application/json
 
 {
-  "postId": "6d308040-96a2-4162-bea6-2338e9976540",
-  "userId": "682376a4d507113c3947fab4"
+  "postId": "e3bf7830-78a4-4ba7-bfaa-2977f116051b",
+  "userId": "658170cbb954e9f5b905ccf4"
 }
 ###

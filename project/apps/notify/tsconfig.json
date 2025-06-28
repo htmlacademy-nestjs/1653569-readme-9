@@ -4,6 +4,9 @@
   "include": [],
   "references": [
     {
+      "path": "../../libs/shared/helpers"
+    },
+    {
       "path": "../../libs/notify/email-subscriber"
     },
     {

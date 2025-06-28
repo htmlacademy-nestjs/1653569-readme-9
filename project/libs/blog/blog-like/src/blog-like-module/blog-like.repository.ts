@@ -7,17 +7,22 @@ import { Like } from '@project/core';
 import { BlogLikeEntity } from './blog-like.entity';
 import { BlogLikeFactory } from './blog-like.factory';
 import { BlogLikeMessage } from './blog-like.constants';
+import { Nullable } from '@project/helpers';
 
 @Injectable()
 export class BlogLikeRepository extends BasePostgresRepository<BlogLikeEntity, Like> {
-  constructor (
+  constructor(
     entityFactory: BlogLikeFactory,
     override readonly client: PrismaClientService
   ) {
     super(entityFactory, client);
   }
 
-  public async createLikeByPostId(postId: string, userId: string): Promise<BlogLikeEntity> {
+  private async findLike(postId: string, userId: string): Promise<Nullable<Like>> {
+    return await this.client.like.findFirst({ where: { userId, postId } });
+  }
+
+  public async createLike(postId: string, userId: string): Promise<BlogLikeEntity> {
     const existLike = await this.findLike(postId, userId);
     if (existLike) {
       throw new ConflictException(BlogLikeMessage.Exist);
@@ -32,20 +37,16 @@ export class BlogLikeRepository extends BasePostgresRepository<BlogLikeEntity, L
     return this.createEntityFromDocument(newLike);
   }
 
-  public async deleteLikeByPostId(postId: string, userId: string): Promise<void> {
+  public async deleteLike(postId: string, userId: string): Promise<void> {
     const existLike = await this.findLike(postId, userId);
     if (!existLike) {
       throw new NotFoundException(BlogLikeMessage.NotFound);
     }
 
-    await this.client.like.delete({ where: { id: existLike.id, } });
+    await this.client.like.delete({ where: { userId_postId: { userId, postId } } });
     await this.client.post.update({
       where: { id: postId },
       data: { likeCount: { decrement: 1 } }
     });
-  }
-
-  public async findLike(postId: string, userId: string): Promise<Like | null> {
-    return await this.client.like.findFirst({ where: { userId, postId } });
   }
 }

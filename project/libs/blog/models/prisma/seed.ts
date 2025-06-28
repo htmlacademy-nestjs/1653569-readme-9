@@ -1,102 +1,197 @@
-import { PrismaClient } from '@prisma/client';
+import { PostStatus, PostType, PrismaClient } from '@prisma/client';
 
-const FIRST_TAG_UUID = '39614113-7ad5-45b6-8093-06455437e1e2';
-const SECOND_TAG_UUID = 'efd775e2-df55-4e0e-a308-58249f5ea202';
+const UserId = {
+  First: '658170cbb954e9f5b905ccf4',
+  Second: '5381762309c030b503e30512',
+} as const
 
-const FIRST_POST_UUID = '6d308040-96a2-4162-bea6-2338e9976540';
-const SECOND_POST_UUID = 'ab04593b-da99-4fe3-8b4b-e06d82e2efdd';
+const PostTypeId = {
+  Video: 'f95fe6f4-9f5f-45f2-9a26-2b2740e76224',
+  Link: 'ffd0658c-75c7-4003-9f60-64565f5e0b5c',
+  Quote: '9e2124e8-3d21-49c2-a64f-412aaa6cfd8a',
+  Photo: '162adc80-724f-4995-9bd9-edd6f7083940',
+  Text: '677b10e7-a284-4d8c-8716-6dc9945c4948',
+} as const
 
-const FIRST_USER_ID = '658170cbb954e9f5b905ccf4';
-const SECOND_USER_ID = '6581762309c030b503e30512';
-
-function getTags() {
-  return [
-    { id: FIRST_TAG_UUID, title: 'Books' },
-    { id: SECOND_TAG_UUID, title: 'Magazines' },
-  ];
-}
+const PostId = {
+  First: 'e3bf7830-78a4-4ba7-bfaa-2977f116051b',
+  Second: '9aedac08-472e-4ed5-866d-2c16cf5d164d',
+  Third: '393c91ae-81a1-49fb-96d8-76639aade35e',
+  Fourth: 'b69728c1-5af8-4444-ad0b-a5606d0393a6',
+  Fifth: '63045e16-9426-48e5-8f2b-f46c65527995',
+} as const
 
 function getPosts() {
   return [
     {
-      id: FIRST_POST_UUID,
-      title: 'Some title for first post',
-      userId: FIRST_USER_ID,
-      text: 'Some content for first post',
-      description: 'Some description for first post',
-      tags: {
-        connect: [{ id: FIRST_TAG_UUID }],
-      },
-    },
-    {
-      id: SECOND_POST_UUID,
-      title: 'Some title for second post',
-      userId: FIRST_USER_ID,
-      text: 'Some content for second post',
-      description: 'Some description for second post',
-      tags: {
-        connect: [
-          { id: FIRST_TAG_UUID },
-          { id: SECOND_TAG_UUID },
-        ]
-      },
+      id: PostId.First,
+      type: PostType.video,
+      status: PostStatus.published,
+      userId: UserId.First,
       comments: [
+        {
+          text: 'Some comment from First user',
+          userId: UserId.First,
+        },
+        {
+          text: 'Some comment from Second user',
+          userId: UserId.Second,
+        }
+      ],
+      tags: {
+        connectOrCreate: [
           {
-            message: 'Some first comment for post',
-            userId: FIRST_USER_ID,
+            create: { title: 'one'},
+            where: { title: 'one' }
           },
           {
-            message: 'Some second comment for post',
-            userId: SECOND_USER_ID,
+            create: { title: 'two'},
+            where: { title: 'two' }
           }
-      ]
+        ]
+      },
+      likes: [
+        { userId: UserId.Second }
+      ],
+      video: {
+        create: getVideoPost()
+      }
+    },
+    {
+      id: PostId.Second,
+      type: PostType.link,
+      userId: UserId.First,
+      tags: {
+        connectOrCreate: [
+          {
+            create: { title: 'one' },
+            where: { title: 'one' }
+          }
+        ]
+      },
+      link: {
+        create: getLinkPost()
+      }
+    },
+    {
+      id: PostId.Third,
+      type: PostType.quote,
+      userId: UserId.Second,
+      tags: {
+        connectOrCreate: [
+          {
+            create: {title: 'one'},
+            where: { title: 'one' }
+          }
+        ]
+      },
+      likes: [
+        { userId: UserId.First }
+      ],
+      quote: {
+        create: getQuotePost()
+      }
+    },
+    {
+      id: PostId.Fourth,
+      type: PostType.photo,
+      userId: UserId.Second,
+      tags: {
+        connectOrCreate: [
+          {
+            create: {title: 'one'},
+            where: { title: 'one' }
+          }
+        ]
+      },
+      photo: {
+        create: getPhotoPost()
+      }
+    },
+    {
+      id: PostId.Fifth,
+      type: PostType.text,
+      userId: UserId.First,
+      tags: {
+        connectOrCreate: [
+          {
+            create: { title: 'four' },
+            where: { title: 'four'}
+          }
+        ]
+      },
+      text: {
+        create: getTextPost()
+      }
     }
   ]
 }
 
-async function seedDb(prismaClient: PrismaClient) {
-  const mockTags = getTags();
-  for (const tag of mockTags) {
-    await prismaClient.tag.upsert({
-      where: { id: tag.id },
-      update: {},
-      create: {
-        id: tag.id,
-        title: tag.title
-      }
-    });
-  }
-
-  const mockPosts = getPosts();
-  for (const post of mockPosts) {
-    const createdPost = await prismaClient.post.upsert({
-      where: {
-        id: post.id,
-      },
-      update: {},
-      create: {
-        id: post.id,
-        title: post.title,
-        text: post.text,
-        description: post.description,
-        userId: post.userId,
-      }
-    });
-
-    if (post.comments) {
-      for (const comment of post.comments) {
-        await prismaClient.comment.create({
-          data: {
-            message: comment.message,
-            userId: comment.userId,
-            postId: createdPost.id,
-          }
-        });
-      }
+function getVideoPost() {
+  return {
+      id: PostTypeId.Video,
+      title: 'Video title',
+      url: 'https://www.youtube.com/video/',
     }
-  }
+}
 
-  console.info('🤘️ Database was filled');
+function getLinkPost() {
+  return {
+      id: PostTypeId.Link,
+      url: 'https://www.prisma.io/docs/',
+      description: 'Prisma documentation'
+    }
+}
+
+function getQuotePost() {
+  return {
+      id: PostTypeId.Quote,
+      text: 'Learning is a treasure that will follow its owner everywhere.',
+      author: 'Chinese Proverb'
+    }
+}
+
+function getPhotoPost() {
+  return {
+      id: PostTypeId.Photo,
+      path: 'photo.jpg'
+    }
+}
+
+function getTextPost() {
+  return {
+      id: PostTypeId.Text,
+      title: 'Get Ready to Groove!',
+      announcement: 'We аre excited to announce our upcoming Summer Music Festival!',
+      text: 'Join us on July 5th at 7 PM at Central Park for an evening of live music, delicious food, and good vibes. ',
+    }
+}
+
+async function seedDb(prismaClient: PrismaClient) {
+  const posts = getPosts();
+  for(const post of posts) {
+    await prismaClient.post.upsert({
+      where: {id: post.id},
+      update: {},
+      create: {
+        id: post.id,
+        type: post.type,
+        status: post.status,
+        userId: post.userId,
+        commentCount: post.comments?.length ?? 0,
+        likeCount: post.likes?.length ?? 0,
+        tags: post.tags,
+        comments: post.comments && post.comments.length ? { create: post.comments } : undefined,
+        likes: post.likes?.length ? { create: post.likes }: undefined,
+        video: post.video ?? undefined,
+        photo: post.photo ?? undefined,
+        quote: post.quote ?? undefined,
+        text: post.text ?? undefined,
+        link: post.link ?? undefined,
+      }
+    })
+  }
+  console.info('🚀 Database was filled')
 }
 
 
@@ -106,11 +201,12 @@ async function bootstrap() {
   try {
     await seedDb(prismaClient);
     globalThis.process.exit(0);
-  } catch (error: unknown) {
+  } catch(error: unknown) {
     console.error(error);
-    globalThis.process.exit(1);
+    globalThis.process.exit(1)
   } finally {
-    await prismaClient.$disconnect();
+    await prismaClient.$disconnect;
+    console.log('Prisma client disconnected')
   }
 }
 

@@ -17,6 +17,9 @@
   ],
   "references": [
     {
+      "path": "../../libs/shared/helpers/tsconfig.lib.json"
+    },
+    {
       "path": "../../libs/notify/email-subscriber/tsconfig.lib.json"
     },
     {

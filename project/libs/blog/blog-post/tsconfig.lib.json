@@ -21,19 +21,22 @@
   ],
   "references": [
     {
-      "path": "../../shared/data-access/tsconfig.lib.json"
+      "path": "../models/tsconfig.lib.json"
     },
     {
-      "path": "../models/tsconfig.lib.json"
+      "path": "../../shared/data-access/tsconfig.lib.json"
     },
     {
       "path": "../blog-tag/tsconfig.lib.json"
     },
     {
-      "path": "../blog-comment/tsconfig.lib.json"
+      "path": "../../shared/helpers/tsconfig.lib.json"
     },
     {
-      "path": "../../shared/helpers/tsconfig.lib.json"
+      "path": "../notify/tsconfig.lib.json"
+    },
+    {
+      "path": "../blog-like/tsconfig.lib.json"
     },
     {
       "path": "../../shared/core/tsconfig.lib.json"

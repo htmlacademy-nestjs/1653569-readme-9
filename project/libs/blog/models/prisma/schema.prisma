@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output = "../../../../node_modules/.prisma/client"
+  output   = "../../../../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -8,62 +8,123 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum PostType {
+  video
+  text
+  photo
+  link
+  quote
+}
+
+enum PostStatus {
+  published
+  draft
+}
+
 model Post {
-  id              String    @id @default(uuid())
-  title           String?
-  text            String?
-  announcement    String?
-  description     String?
-  quoteText       String?
-  quoteAuthor     String?
-  linkPath        String?
-  userId          String     @map("user_id")
-  isReposted      Boolean    @default(false) @map("is_reposted")
-  repostedUserId  String?    @map("reposted_user_id")
-  repostedPostId  String?    @map("reposted_post_id")
-  likeCount       Int        @default(0) @map("like_count")
-  commentCount    Int        @default(0) @map("comment_count")
-  createdAt       DateTime   @default(now()) @map("created_at")
-  updatedAt       DateTime   @updatedAt @map("updated_at")
-  state           String?
-  type            String?
-  comments        Comment[]
-  likes           Like[]
-  tags            Tag[]
+  id             String     @id @default(uuid())
+  userId         String     @map("user_id")
+  createdAt      DateTime   @default(now()) @map("created_at")
+  updatedAt      DateTime   @updatedAt @map("updated_at")
+  postedAt       DateTime   @default(now()) @map("posted_at")
+  isReposted     Boolean    @default(false) @map("is_reposted")
+  repostedPostId String?    @map("reposted_post_id")
+  repostedUserId String?    @map("reposted_user_id")
+  commentCount   Int        @default(0) @map("comment_count")
+  likeCount      Int        @default(0) @map("like_count")
+  status         PostStatus @default(published)
+  type           PostType
+
+  comments Comment[]
+  likes    Like[]
+  tags     Tag[]
+
+  video VideoPost?
+  photo PhotoPost?
+  quote QuotePost?
+  text  TextPost?
+  link  LinkPost?
 
   @@map("posts")
 }
 
-model Comment {
-  id          String    @id @default(uuid())
-  message     String
-  userId      String    @map("user_id")
-  post        Post      @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  postId      String    @map("post_id")
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @updatedAt @map("updated_at")
+model VideoPost {
+  id     String @id @default(uuid())
+  title  String
+  url    String
+  postId String @unique @map("post_id")
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  @@index([postId])
+  @@map("video_posts")
+}
+
+model TextPost {
+  id           String @id @default(uuid())
+  title        String
+  announcement String
+  text         String
+  postId       String @unique @map("post_id")
+  post         Post   @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("text_posts")
+}
+
+model QuotePost {
+  id     String @id @default(uuid())
+  text   String
+  author String
+  postId String @unique @map("post_id")
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("quote_posts")
+}
+
+model PhotoPost {
+  id     String @id @default(uuid())
+  path   String
+  postId String @unique @map("post_id")
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("photo_posts")
+}
+
+model LinkPost {
+  id          String  @id @default(uuid())
+  url         String
+  description String?
+  postId      String  @unique @map("post_id")
+  post        Post    @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("link_posts")
+}
+
+model Tag {
+  id        String   @id @default(uuid())
+  title     String   @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  posts     Post[]
+
+  @@map("tags")
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  text      String
+  userId    String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  postId    String   @map("post_id")
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
   @@map("comments")
 }
 
 model Like {
-  id          String    @id @default(uuid())
-  post        Post      @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  postId      String    @map("post_id")
-  userId      String    @map("user_id")
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @updatedAt @map("updated_at")
+  userId String @map("user_id")
+  postId String @map("post_id")
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  @@index([postId])
+  @@id([userId, postId])
   @@map("likes")
-}
-
-model Tag {
-  id       String @id @default(uuid())
-  title    String @unique
-  posts    Post[]
-
-  @@index([title])
-  @@map("tags")
 }

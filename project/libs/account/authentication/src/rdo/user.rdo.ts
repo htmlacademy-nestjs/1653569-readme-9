@@ -17,17 +17,21 @@ export class UserRDO {
 
   @ApiProperty(AuthUserApiProperty.AvatarPath)
   @Expose()
-  public avatarPath!: string;
+  public avatar!: string;
 
   @ApiProperty(AuthUserApiProperty.RegisterDate)
-  @Expose({ name: 'createdAt' })
-  public registerDate!: Date;
+  @Expose()
+  public createdAt!: Date;
 
   @ApiProperty(AuthUserApiProperty.PostCount)
   @Expose()
   public postCount!: number;
 
+  @ApiProperty(AuthUserApiProperty.SubsciberCount)
+  @Expose()
+  public subscriberCount!: number;
+
   @ApiProperty(AuthUserApiProperty.Subscribers)
   @Expose()
-  public subscribers!: string[]
+  public subscriptions!: string[]
 }
